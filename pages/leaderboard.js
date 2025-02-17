@@ -57,7 +57,7 @@ export default function Leaderboard({ users }) {
          <div className='flex flex-col items-center justify-center gap-2 w-1/2 backdrop-blur-sm p-10'>
             <h2 className='font-inter text-3xl underline-offset-2 underline'>Leaderboard</h2>
             {ranked.map((user, key) => (
-               <div key={key} className='grid grid-cols-2 gap-2'>
+               <div key={key} className='grid grid-cols-2 gap-2 items-center justify-center'>
                   <a href={`/profile/${user.full_name}`} className='hover:bg-white/5 rounded-lg transition-colors duration-200 px-3 py-2'>
                      <div className='flex flex-col items-center justify-center min-w-64'>
                         <div className='flex gap-2 items-center justify-center'>

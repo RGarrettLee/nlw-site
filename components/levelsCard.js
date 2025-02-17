@@ -23,7 +23,7 @@ export default function LevelsCard({ tierData, toggle, setToggle }) {
          <Dialog as='div' className='relative z-40' open={toggle} onClose={() => setToggle(false)}>
                <div className='fixed inset-0 w-full overflow-y-auto'>
                   <div className='flex flex-col min-h-full items-center justify-center'>
-                     <DialogPanel transition className='flex lg:items-center lg:justify-center w-screen rounded-2xl px-5 lg:px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
+                     <DialogPanel transition className='flex lg:items-center lg:justify-center w-screen rounded-2xl lg:px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
                         <div className='relative bg-slate-800 rounded-lg'>
                            <DialogTitle className='text-3xl px-4 py-2 font-inter text-center'>{tierData.name}</DialogTitle>
                            <p className='text-xl font-thin text-center mb-2'><span className='text-green-600 font-bold'>{tierData.levelCount}</span> levels</p>

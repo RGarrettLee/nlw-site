@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import ViewCompletions from '../components/viewCompletions';
 import LevelSubmitDialog from '../components/levelSubmitDialog';
 
@@ -12,7 +11,6 @@ export default function Profile({ nlwData, user, users }) {
    const [viewCompletions, setViewCompletions] = useState(false);
    const [tier, setTier] = useState({});
    const [tieredCompletions, setTieredCompletions] = useState([]);
-   const router = useRouter();
 
    useEffect(() => {
       let names = [];
@@ -119,14 +117,9 @@ export default function Profile({ nlwData, user, users }) {
             </div>
          ) : (
             <div className='min-h-screen min-w-screen'>
-               <p className='font-semibold text-center text-2xl'>redirecting to login...</p>
-               
+               <p className='font-semibold text-center text-2xl'>you're not logged in</p>
             </div>
          )}
       </>
    )
 }
-
-// add way to view all completions
-
-//{router.push('/login')}

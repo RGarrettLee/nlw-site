@@ -115,10 +115,3 @@ export default function LevelSearch({ nlwData }) {
       </>
    )
 }
-
-
-/*
-TODO:
-- separate all level names into a list with their associated tier
-
-*/

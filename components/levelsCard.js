@@ -43,11 +43,3 @@ export default function LevelsCard({ tierData, toggle, setToggle }) {
       </>
    )
 }
-
-
-/*
-TODO
-- change up table for better look
-- build out mobile display
-- replace MUI elements with headlessui elements
-*/

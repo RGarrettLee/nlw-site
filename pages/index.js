@@ -19,6 +19,3 @@ export default function Home({ nlwData }) {
     </>
   )
 }
-
-
-// collect data from other sheets on the NLW

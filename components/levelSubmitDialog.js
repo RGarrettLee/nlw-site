@@ -153,17 +153,3 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
       </Dialog>
    )
 }
-
-
-// finish dialog setup and autocomplete for selecting levels to submit, create submission table on db for storing or another method you think of thats better
-// add a check for whether or not a completion was added
-
-/* embed link layouts
-medal:
-<iframe width='640' height='360' style='border: none;' src='https://medal.tv/games/geometry-dash/clip/jCRazJxYY55iMcUof?invite=cr-MSxqZGIsMzIxNzAwNTQ1LA' allow='autoplay' allowfullscreen></iframe>
-
-youtube:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sJvTbzJZifc?si=G-aENZYuqYT5eZNb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-*/

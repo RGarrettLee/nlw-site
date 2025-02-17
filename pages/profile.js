@@ -9,6 +9,9 @@ export default function Profile({ nlwData, user, users }) {
    const [usernames, setUsernames] = useState([]);
    const [completionSubmission, setCompletionSubmission] = useState(false);
    const [usernameSubmission, setUsernameSubmission] = useState(false);
+   const [viewCompletions, setViewCompletions] = useState(false);
+   const [tier, setTier] = useState({});
+   const [tieredCompletions, setTieredCompletions] = useState([]);
    const router = useRouter();
 
    useEffect(() => {
@@ -52,6 +55,22 @@ export default function Profile({ nlwData, user, users }) {
       return progress;
    }
 
+   function openCompletion(tier) {
+      let levels = [];
+
+      completions.map((level) => {
+         if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
+            if (completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+               levels.push(level);
+            }
+         }
+      })
+
+      setTieredCompletions([...levels]);
+      setTier(tier);
+      setViewCompletions(true);
+   }
+
    function submitCompletion() {
       setCompletionSubmission(true);
    }
@@ -87,7 +106,7 @@ export default function Profile({ nlwData, user, users }) {
                      {nlwData.map((tier, index) => (
                         <div className='flex flex-col items-center justify-center gap-2' key={index}>
                            <p className='text-lg text-center font-semibold'>{tier.name}</p>
-                           <p className='font-thin'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></p>
+                           <button onClick={() => openCompletion(tier)} className='font-thin hover:scale-125 transition-transform duration-100'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></button>
                            <div className='w-32 bg-gray-700 rounded-full'>
                               <div className={`bg-indigo-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full py-0.5`} style={{ width: `${getTierProgress(tier) / tier.levels.length}%`}}>{Math.floor(getTierProgress(tier) / tier.levels.length)}%</div> {/* get percantage of completions */}
                            </div>
@@ -96,6 +115,7 @@ export default function Profile({ nlwData, user, users }) {
                   </div>
                </div>
                <LevelSubmitDialog levels={levels} nlwData={nlwData} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
+               <ViewCompletions completions={tieredCompletions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />
             </div>
          ) : (
             <div className='min-h-screen min-w-screen'>

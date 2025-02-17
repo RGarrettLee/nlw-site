@@ -1,9 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import ViewCompletions from '../../components/viewCompletions';
 
 export default function Page({ users, nlwData }) {
    const [user, setUser] = useState({});
    const [levels, setLevels] = useState([]);
+   const [viewCompletions, setViewCompletions] = useState(false);
+   const [tier, setTier] = useState({});
+   const [tieredCompletions, setTieredCompletions] = useState([]);
    const router = useRouter();
 
    useEffect(() => {
@@ -54,6 +58,22 @@ export default function Page({ users, nlwData }) {
       return progress;
    }
 
+   function openCompletion(tier) {
+      let levels = [];
+
+      user?.completions.map((level) => {
+         if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
+            if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+               levels.push(level);
+            }
+         }
+      })
+
+      setTieredCompletions([...levels]);
+      setTier(tier);
+      setViewCompletions(true);
+   }
+
    return (
       <>
          {user?.full_name ? (
@@ -72,7 +92,7 @@ export default function Page({ users, nlwData }) {
                      {nlwData?.map((tier, index) => (
                         <div className='flex flex-col items-center justify-center gap-2' key={index}>
                            <p className='text-lg text-center font-semibold'>{tier.name}</p>
-                           <p className='font-thin'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></p>
+                           <button onClick={() => openCompletion(tier)} className='font-thin hover:scale-125 transition-transform duration-100'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></button>
                            <div className='w-32 bg-gray-700 rounded-full'>
                               <div className={`bg-indigo-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full py-0.5`} style={{ width: `${getTierProgress(tier) / tier.levels.length}%`}}>{Math.floor(getTierProgress(tier) / tier.levels.length)}%</div> {/* get percantage of completions */}
                            </div>
@@ -80,6 +100,7 @@ export default function Page({ users, nlwData }) {
                      ))}
                   </div>
                </div>
+               <ViewCompletions completions={tieredCompletions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />
             </div>
          ) : (
             <div className='flex flex-col items-center justify-center min-h-screen min-w-screen'>

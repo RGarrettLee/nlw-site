@@ -8,7 +8,7 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
             <div className='fixed inset-0 w-screen overflow-y-scroll'>
                <div className='flex flex-col min-h-full min-w-full items-center justify-center'>
                   <DialogPanel transition className='flex flex-col items-center justify-center w-screen rounded-2xl px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
-                     <div className='relative bg-slate-700 rounded-lg'>
+                     <div className='relative bg-slate-800 rounded-lg'>
                         <DialogTitle className='text-3xl px-4 py-2 font-inter text-center'>{tier.name}</DialogTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" onClick={() => setToggle(false)} className="absolute size-5 sm:size-8 bg-red-600 hover:bg-red-500 active:bg-red-400 duration-200 transition-colors top-1 right-1 sm:top-2 sm:right-2 rounded-lg">
                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />

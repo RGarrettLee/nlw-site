@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Header from '../components/header';
 import supabase from '../db/connection';
 
@@ -63,6 +64,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       <Header user={user} />
       <Component {...pageProps} nlwData={nlwData} users={users} user={user} />
+      <SpeedInsights />
     </div>
   )
 }

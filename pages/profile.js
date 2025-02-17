@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import ViewCompletions from '../components/viewCompletions';
 import LevelSubmitDialog from '../components/levelSubmitDialog';
 
@@ -117,7 +118,7 @@ export default function Profile({ nlwData, user, users }) {
             </div>
          ) : (
             <div className='min-h-screen min-w-screen'>
-               <p className='font-semibold text-center text-2xl'>you're not logged in</p>
+               <p className='font-semibold text-center text-2xl'>you are not logged in</p>
             </div>
          )}
       </>

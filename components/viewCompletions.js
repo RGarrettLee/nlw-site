@@ -5,15 +5,15 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
    return (
       <>
          <Dialog as='div' className='relative z-40' open={toggle} onClose={() => setToggle(false)}>
-            <div className='fixed inset-0 w-screen overflow-y-auto'>
+            <div className='fixed inset-0 w-screen overflow-y-scroll'>
                <div className='flex flex-col min-h-full min-w-full items-center justify-center'>
-                  <DialogPanel transition className='rounded-2xl px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
+                  <DialogPanel transition className='flex flex-col items-center justify-center w-screen rounded-2xl px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
                      <div className='relative bg-slate-700 rounded-lg'>
                         <DialogTitle className='text-3xl px-4 py-2 font-inter text-center'>{tier.name}</DialogTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" onClick={() => setToggle(false)} className="absolute size-5 sm:size-8 bg-red-600 hover:bg-red-500 active:bg-red-400 duration-200 transition-colors top-1 right-1 sm:top-2 sm:right-2 rounded-lg">
                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
-                        <div className={`${completions.length > 1 ? `sm:grid ${completions.length > 4 ? 'grid-cols-3' : 'grid-cols-2'} justify-center gap-4` : 'sm:flex sm:flex-col sm:items-center sm:justify-center'} flex flex-col items-center justify-center`}>
+                        <div className={`${completions.length > 1 ? `sm:grid ${completions.length > 4 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} justify-center gap-4` : 'sm:flex sm:flex-col sm:items-center sm:justify-center'} flex flex-col`}>
                            {completions.map((level, key) => (
                               <div key={key} className='relative bg-white/10 min-h-40 min-w-72 p-4 m-2 rounded-xl'>
                                  <div className='flex flex-col items-center justify-center'>
@@ -25,7 +25,7 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
                                     {level.opinion !== '' ? (
                                        <>
                                           <p className='text-md sm:text-lg font-semibold'>Personal Opinion:</p>
-                                          <Textarea className='text-md sm:text-lg min-w-full text-center text-white bg-transparent font-thin resize-none rounded-lg px-2 mb-5' disabled='true'>{level.opinion}</Textarea>
+                                          <Textarea className='text-md sm:text-lg min-w-full text-center text-white bg-transparent font-thin resize-none rounded-lg px-2 mb-5' readonly='true'>{level.opinion}</Textarea>
                                        </>
                                     ) : (
                                        <></>

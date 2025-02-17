@@ -25,9 +25,7 @@ export default function Page({ users, nlwData }) {
          let notfound = true;
 
          users.map((user) => {
-            console.log(user);
             if (user.full_name === router.query.id) {
-               console.log('found')
                setUser(user);
                notfound = false;
             }
@@ -46,11 +44,10 @@ export default function Page({ users, nlwData }) {
       let progress = 0;
 
       levels?.map((level) => {
-         if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
+         if (tier.name.toLowerCase() === (level?.tier + 'Tier').toLowerCase()) {
             if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
                progress++;
             }
-            
          }
       })
 

@@ -59,7 +59,7 @@ export default function Profile({ nlwData, user, users }) {
 
       completions.map((level) => {
          if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
-            if (completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+            if (completions.find(({ uid }) => uid === level.uid)?.status === 'approved' && completions.find(({ name }) => name === level.name)) {
                levels.push(level);
             }
          }

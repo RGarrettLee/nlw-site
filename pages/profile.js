@@ -91,11 +91,11 @@ export default function Profile({ nlwData, user, users }) {
                   )}
                </div>
                <div className='flex items-center justify-center gap-6 '>
-                  {gd_username === null ? (
+                  {/*{gd_username === null ? (
                      <button className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit GD username</button>
                   ) : (
                      <></>
-                  )}
+                  )}*/}
                   <button onClick={() => submitCompletion()} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit completion</button>
                </div>
                

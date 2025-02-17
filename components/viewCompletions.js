@@ -24,7 +24,7 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
                                     {level.opinion !== '' ? (
                                        <>
                                           <p className='text-md sm:text-lg font-semibold'>Personal Opinion:</p>
-                                          <Textarea className='text-md sm:text-lg min-w-full text-center bg-slate-600 font-thin resize-none rounded-lg px-2 mb-5' disabled='true'>{level.opinion}</Textarea>
+                                          <Textarea className='text-md sm:text-lg min-w-full text-center text-white bg-transparent font-thin resize-none rounded-lg px-2 mb-5' disabled='true'>{level.opinion}</Textarea>
                                        </>
                                     ) : (
                                        <></>

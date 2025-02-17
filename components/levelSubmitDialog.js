@@ -58,8 +58,9 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
          setUrl(url);
          setEmbed('https://www.youtube.com/embed/'+url.match(ytRegEx)[2]);
       } else if (url.match(medalRegEx) && url.match(medalRegEx)[1] === 'clips/') {
+         let mod = url.replace('clips', 'clip');
          setUrl(url);
-         setEmbed(url.match(medalRegEx)[0]);
+         setEmbed(mod.match(medalRegEx)[0]);
       }
    }
 
@@ -112,7 +113,7 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
                            <p className='text-xl font-thin'><span className='font-bold'>{searchedLevel.name}</span> by <span className='font-semibold underline-offset-2 underline'>{searchedLevel.creators}</span></p>
                            <p className='text-lg font-inter'>{searchedLevel.tier} Tier</p>
                         </div>
-                        <Fieldset invalid className='space-y-3 rounded-xl bg-white/5 p-6 text-center'>
+                        <Fieldset className='space-y-3 rounded-xl bg-white/5 p-6 text-center'>
                            <Legend className='text-base/7 font-bold'>Details</Legend>
                            <Field className='flex flex-col items-center justify-center gap-2'>
                               <Label className='text-md/6 font-medium'>Enjoyment</Label>

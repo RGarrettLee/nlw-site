@@ -103,6 +103,9 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
                      onChange={(event) => findLevel(event)}
                      renderInput={(params) => <TextField {...params} label='Search level' variant='filled' />}
                   />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" onClick={() => setToggle(false)} className="absolute size-10 sm:hidden bg-red-600 hover:bg-red-500 active:bg-red-400 top-2 right-2 rounded-lg">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
                   {searchedLevel?.name ? (
                      <div className='flex flex-col items-center justify-center gap-2'>
                         <div className='flex flex-col items-center justify-center'>

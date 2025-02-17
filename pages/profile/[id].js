@@ -87,7 +87,7 @@ export default function Page({ users, nlwData }) {
                   )}
                </div>               
                <div className='flex flex-col items-center justify-center gap-2'>
-                  <p className='text-2xl font-inter'>Completions</p>
+                  <p className='text-2xl font-inter'>Progress</p>
                   <div className='grid grid-cols-2 sm:grid-cols-2 sm:grid-rows-subgrid gap-4 backdrop-blur-sm rounded-lg px-4 py-2'>
                      {nlwData?.map((tier, index) => (
                         <div className='flex flex-col items-center justify-center gap-2' key={index}>

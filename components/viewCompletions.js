@@ -5,7 +5,7 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
    return (
       <>
          <Dialog as='div' className='relative z-40' open={toggle} onClose={() => setToggle(false)}>
-            <div className='fixed inset-0 w-screen overflow-y-scroll'>
+            <div className='fixed inset-0 w-screen overflow-y-scroll overflow-x-hidden'>
                <div className='flex flex-col min-h-full min-w-full items-center justify-center'>
                   <DialogPanel transition className='flex flex-col items-center justify-center w-screen rounded-2xl px-20 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>        
                      <div className='relative bg-slate-800 rounded-lg'>

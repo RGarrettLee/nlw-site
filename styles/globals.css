@@ -6,8 +6,13 @@
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    overflow: hidden;
+    ::-webkit-scrollbar {
+      display: none;
+  }
   }
   body {
+    overflow-y: scroll;
     background-color: #e5e5f7;
     opacity: 1;
     background: repeating-linear-gradient( 45deg, #444cf7, #444cf7 1px, #121212 1px, #121212 35px );

@@ -61,6 +61,8 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
          let mod = url.replace('clips', 'clip');
          setUrl(url);
          setEmbed(mod.match(medalRegEx)[0]);
+      } else {
+         setEmbed('not embeddable')
       }
    }
 
@@ -136,7 +138,11 @@ export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setTo
                               {embed !== '' ? (
                                  <div className='flex flex-col items-center justify-center gap-2'>
                                     <button type='submit' onClick={() => submitRecord()} className='px-4 py-2 bg-green-700 hover:bg-green-600 active:bg-green-500 duration-200 transition-colors rounded-xl font-inter'>Submit record</button>
-                                    <iframe width='300' height='169' className='block mx-auto border-none' src={embed} allow='autoplay' allowFullScreen></iframe>
+                                    {embed !== 'not embeddable' ? (
+                                       <iframe width='300' height='169' className='block mx-auto border-none' src={embed} allow='autoplay' allowFullScreen></iframe>
+                                    ) : (
+                                       <></>
+                                    )}
                                  </div>
                               ) : (
                                  <></>

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-export default function Page({ nlwData, users }) {
+export default function Page({ users, nlwData }) {
    const [user, setUser] = useState({});
    const [levels, setLevels] = useState([]);
    const router = useRouter();
@@ -40,7 +40,7 @@ export default function Page({ nlwData, users }) {
 
       getUsers();
       getLevels();
-   }, [router.query.id]);
+   }, [router.query.id, users]);
 
    function getTierProgress(tier) {
       let progress = 0;

@@ -1,0 +1,165 @@
+import { Dialog, DialogPanel, DialogTitle, Fieldset, Legend, Field, Input, Select, Label, Textarea } from '@headlessui/react';
+import { Autocomplete, TextField } from '@mui/material'
+import { useState } from 'react';
+import supabase from '../db/connection';
+
+export default function LevelSubmitDialog({ levels, nlwData, user, toggle, setToggle }) {
+   const [searchedLevel, setSearchedLevel] = useState({});
+   const [embed, setEmbed] = useState('');
+   const [url, setUrl] = useState('');
+   const [personalEnj, setPersonalEnj] = useState(0);
+   const [personalRate, setPersonalRate] = useState('Beginner Tier');
+   const [opinion, setOpinion] = useState('');
+   const [attempts, setAttempts] = useState(0);
+
+   function findLevel(e) {
+      if (e.target.innerHTML.length < 31) {
+         let res = levels.find(({ uid }) => uid === parseInt(e.target.attributes?.id?.value));
+         if (res === undefined) {
+            res = {};
+         }
+
+         setSearchedLevel(res);
+      } else {
+         let idStart = e.target.innerHTML.substring(31);
+         let eid = ''
+
+         for (let i = 0; i < idStart.length; i++) {
+            if (idStart.charAt(i) !== '"') {
+               eid += idStart.charAt(i);
+            } else {
+               break;
+            }
+         }
+   
+         let res = levels.find(({ uid }) => uid === parseInt(eid));
+         if (res === undefined) {
+            res = {};
+         }
+         setSearchedLevel(res);
+      }
+   }
+
+   function resetValues() {
+      setPersonalEnj(0);
+      setPersonalRate('Beginner Tier');
+      setOpinion('');
+      setAttempts(0);
+      setUrl('');
+      setSearchedLevel({});
+      setEmbed('');
+   }
+
+   function getEmbed(url) {
+      const ytRegEx = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const medalRegEx = /^.*(medal\/|games\/|geometry-dash\/|clips\/)([^#&?]*\?invite\=cr\-[^#&?]*).*/
+
+      if (url.match(ytRegEx) && url.match(ytRegEx)[2].length === 11) {
+         setUrl(url);
+         setEmbed('https://www.youtube.com/embed/'+url.match(ytRegEx)[2]);
+      } else if (url.match(medalRegEx) && url.match(medalRegEx)[1] === 'clips/') {
+         setUrl(url);
+         setEmbed(url.match(medalRegEx)[0]);
+      }
+   }
+
+   async function submitRecord() {
+      window.alert('Your record has been submitted and is awaiting approval');
+
+      let completion = Object.assign({}, { 'personalEnj': personalEnj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'video': url, 'embed': embed, 'status': 'pending' }, searchedLevel)
+      let completions = user.completions;
+
+      completions.push(completion);
+
+      await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name)
+
+      resetValues();
+      setToggle(false);
+   }
+
+   return (
+      <Dialog as='div' className='relative z-40' open={toggle} onClose={() => {
+         setToggle(false);
+         resetValues();
+      }}>
+         <div className='fixed inset-0 w-screen overflow-y-auto'>
+            <div className='flex flex-col min-h-full items-center justify-center'>
+            <DialogPanel transition className="flex flex-col items-center justify-center gap-4 w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
+                  <DialogTitle className='font-inter text-center text-2xl'>Submit Completion</DialogTitle>
+                  <Autocomplete
+                     disablePortal
+                     options={levels}
+                     renderOption={(props, option) => (
+                        <li className='flex flex-col items-center justify-center text-center'{...props} key={option.uid}>
+                           <div className='flex gap-2'>
+                              <p id={option.uid} className='font-thin'>{option.name}</p>
+                           </div>
+                        </li>
+                     )}
+                     autoSelect
+                     sx={{ width: 300, bgcolor: 'ghostwhite' }}
+                     getOptionLabel={(option) => option.name}
+                     getOptionKey={(option) => option.uid}
+                     onChange={(event) => findLevel(event)}
+                     renderInput={(params) => <TextField {...params} label='Search level' variant='filled' />}
+                  />
+                  {searchedLevel?.name ? (
+                     <div className='flex flex-col items-center justify-center gap-2'>
+                        <div className='flex flex-col items-center justify-center'>
+                           <p className='text-xl font-thin'><span className='font-bold'>{searchedLevel.name}</span> by <span className='font-semibold underline-offset-2 underline'>{searchedLevel.creators}</span></p>
+                           <p className='text-lg font-inter'>{searchedLevel.tier} Tier</p>
+                        </div>
+                        <Fieldset invalid className='space-y-3 rounded-xl bg-white/5 p-6 text-center'>
+                           <Legend className='text-base/7 font-bold'>Details</Legend>
+                           <Field className='flex flex-col items-center justify-center gap-2'>
+                              <Label className='text-md/6 font-medium'>Enjoyment</Label>
+                              <Select onChange={(event) => setPersonalEnj(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
+                                 {Array.apply(0, Array(10)).map((x, i) => (
+                                    <option key={i} className='text-black'>{i+1}</option>
+                                 ))}
+                              </Select>
+                              <Label className='text-md/6 font-medium'>Personal Rating</Label>
+                              <Select onChange={(event) => setPersonalRate(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
+                                 {nlwData.map((tier, index) => (
+                                    <option key={index} className='text-black' value={tier.name}>{tier.name.replace('tier', '')}</option>
+                                 ))}
+                              </Select>
+                              <Textarea onChange={(event) => setOpinion(event.target.value)} className='resize-none w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/5' rows={4} placeholder='Optional: Share your thoughts'></Textarea>
+                              <Label className='text-md/6 font-medium'>Attempt Count</Label>
+                              <Input onChange={(event) => setAttempts(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' name='attempts' type='number' required />
+                              <Label className='text-md/6 font-medium' required>Video Link</Label>
+                              <Input onChange={(event) => getEmbed(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' name='link' />
+                              {embed !== '' ? (
+                                 <div className='flex flex-col items-center justify-center gap-2'>
+                                    <button type='submit' onClick={() => submitRecord()} className='px-4 py-2 bg-green-700 hover:bg-green-600 active:bg-green-500 duration-200 transition-colors rounded-xl font-inter'>Submit record</button>
+                                    <iframe width='300' height='169' className='block mx-auto border-none' src={embed} allow='autoplay' allowFullScreen></iframe>
+                                 </div>
+                              ) : (
+                                 <></>
+                              )}
+                           </Field>
+                        </Fieldset>
+                     </div>
+                  ) : (
+                     <></>
+                  )}
+               </DialogPanel>
+            </div>
+         </div>
+      </Dialog>
+   )
+}
+
+
+// finish dialog setup and autocomplete for selecting levels to submit, create submission table on db for storing or another method you think of thats better
+// add a check for whether or not a completion was added
+
+/* embed link layouts
+medal:
+<iframe width='640' height='360' style='border: none;' src='https://medal.tv/games/geometry-dash/clip/jCRazJxYY55iMcUof?invite=cr-MSxqZGIsMzIxNzAwNTQ1LA' allow='autoplay' allowfullscreen></iframe>
+
+youtube:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sJvTbzJZifc?si=G-aENZYuqYT5eZNb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+*/

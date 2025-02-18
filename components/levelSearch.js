@@ -1,7 +1,8 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
+import LevelSubmitDialog from "./levelSubmitDialog";
 
-export default function LevelSearch({ nlwData }) {
+export default function LevelSearch({ nlwData, user }) {
    const [levels, setLevels] = useState([]);
    const [searchedLevel, setSearchedLevel] = useState({});
 
@@ -77,33 +78,33 @@ export default function LevelSearch({ nlwData }) {
                {searchedLevel?.name ? (
                <table className='table-fixed mx-2'>
                   <tbody>
-                     <tr className='bg-slate-500 text-white' align='center'>
-                        <td className='border-gray-800 border-2 px-1' width='150' height='20'>
+                     <tr className='backdrop-blur-sm text-white' align='center'>
+                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
                            <strong>Tier</strong>
                         </td>
-                        <td className='border-gray-800 border-2 px-1' width='150' height='20'>
+                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
                            <strong>Creator(s)</strong>
                         </td>
-                        <td className='border-gray-800 border-2 px-1' width='100' height='20'>
+                        <td className='border-gray-700 border-2 px-1' width='100' height='20'>
                            <strong>Length</strong>
                         </td>
-                        <td className='border-gray-800 border-2 px-1' width='150' height='20'>
+                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
                            <strong>Skillsets</strong>
                         </td>
-                        <td className='border-gray-800 border-2 px-1' width='100' height='20'>
+                        <td className='border-gray-700 border-2 px-1' width='100' height='20'>
                            <strong>Enj.</strong>
                         </td>
-                        <td className='border-gray-800 border-2 px-1' width='300' height='20'>
+                        <td className='border-gray-700 border-2 px-1' width='300' height='20'>
                            <strong>Description/Notes</strong>
                         </td>
                      </tr>
-                     <tr className='bg-slate-400 text-black text-center' key={searchedLevel?.id}>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter'>{searchedLevel?.tier}</td>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter'>{searchedLevel?.creators}</td>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter'>{searchedLevel?.length}</td>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter'>{searchedLevel?.skillsets}</td>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter'>{searchedLevel?.enj}</td>
-                        <td className='border-gray-800 border-2 px-1 text-black font-inter' height='20'>{searchedLevel.length > 200 ? searchedLevel?.desc : searchedLevel?.desc.substring(0, 200)+'...'}</td>
+                     <tr className='backdrop-blur-sm text-black text-center' key={searchedLevel?.id}>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.tier}</td>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.creators}</td>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.length}</td>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.skillsets}</td>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.enj}</td>
+                        <td className='border-gray-700 border-2 px-1 text-white font-inter' height='20'>{searchedLevel.length > 200 ? searchedLevel?.desc : searchedLevel?.desc.substring(0, 200)+'...'}</td>
                      </tr>
                   </tbody>
                </table>

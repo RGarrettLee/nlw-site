@@ -12,9 +12,10 @@ export default function App({ Component, pageProps }) {
   
   useEffect(() => {
     async function getData() {
-      await supabase.from('NLW').select('name, desc, levelCount, levels')
+      await supabase.from('NLW').select('demons, platformers')
       .then((result) => {
-        setNlwData([...result['data']]);
+        let data = result['data'][0];
+        setNlwData(data);
       })
     }
 

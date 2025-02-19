@@ -53,8 +53,8 @@ export default function Leaderboard({ users }) {
    }
 
    return (
-      <div className='flex flex-col items-center justify-center min-w-screen min-h-screen gap-3 rounded-xl'>
-         <div className='flex flex-col items-center justify-center gap-2 backdrop-blur-sm p-10'>
+      <div className='flex items-center justify-center min-w-screen min-h-screen gap-3'>
+         <div className='flex flex-col items-center justify-center gap-2 backdrop-blur-sm p-10  rounded-xl'>
             <h2 className='font-inter text-3xl underline-offset-2 underline'>Leaderboard</h2>
             {ranked.map((user, key) => (
                <div key={key} className='sm:grid grid-cols-2 gap-2 items-center justify-center'>
@@ -78,8 +78,8 @@ export default function Leaderboard({ users }) {
                   </div>
                </div>
             ))}
-            <ViewCompletions completions={completions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />
          </div>
+         <ViewCompletions completions={completions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />
       </div>
    )
 }

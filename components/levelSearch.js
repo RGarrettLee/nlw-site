@@ -2,9 +2,8 @@ import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
 import LevelSubmitDialog from "./levelSubmitDialog";
 
-export default function LevelSearch({ nlwData, user }) {
+export default function LevelSearch({ nlwData, setSearchedLevel }) {
    const [levels, setLevels] = useState([]);
-   const [searchedLevel, setSearchedLevel] = useState({});
 
    useEffect(() => {
       async function getLevels() {
@@ -26,7 +25,7 @@ export default function LevelSearch({ nlwData, user }) {
 
    function findLevel(e) {
       if (e.target.innerHTML.length < 31) {
-         let res = levels.find(({ uid }) => uid === parseInt(e.target.attributes.id.value));
+         let res = levels.find(({ uid }) => uid === parseInt(e.target?.attributes?.id?.value));
          if (res === undefined) {
             res = {};
          }
@@ -67,50 +66,12 @@ export default function LevelSearch({ nlwData, user }) {
                      </li>
                   )}
                   autoSelect
-                  sx={{ width: 300, bgcolor: 'ghostwhite' }}
+                  sx={{ width: {xs: 300, sm: 175, md: 300} , bgcolor: 'gray' }}
                   getOptionLabel={(option) => option.name}
                   getOptionKey={(option) => option.uid}
                   onChange={(event) => findLevel(event)}
                   renderInput={(params) => <TextField {...params} label='Search level' variant='filled' />}
                />
-            </div>
-            <div className={`flex flex-col items-center justify-center`}>
-               {searchedLevel?.name ? (
-               <table className='table-fixed mx-2'>
-                  <tbody>
-                     <tr className='backdrop-blur-sm text-white' align='center'>
-                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
-                           <strong>Tier</strong>
-                        </td>
-                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
-                           <strong>Creator(s)</strong>
-                        </td>
-                        <td className='border-gray-700 border-2 px-1' width='100' height='20'>
-                           <strong>Length</strong>
-                        </td>
-                        <td className='border-gray-700 border-2 px-1' width='150' height='20'>
-                           <strong>Skillsets</strong>
-                        </td>
-                        <td className='border-gray-700 border-2 px-1' width='100' height='20'>
-                           <strong>Enj.</strong>
-                        </td>
-                        <td className='border-gray-700 border-2 px-1' width='300' height='20'>
-                           <strong>Description/Notes</strong>
-                        </td>
-                     </tr>
-                     <tr className='backdrop-blur-sm text-black text-center' key={searchedLevel?.id}>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.tier}</td>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.creators}</td>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.length}</td>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.skillsets}</td>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter'>{searchedLevel?.enj}</td>
-                        <td className='border-gray-700 border-2 px-1 text-white font-inter' height='20'>{searchedLevel.length > 200 ? searchedLevel?.desc : searchedLevel?.desc.substring(0, 200)+'...'}</td>
-                     </tr>
-                  </tbody>
-               </table>
-               ) : (
-                  <></>
-               )}
             </div>
          </div>
       </>

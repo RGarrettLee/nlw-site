@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
 import LevelSubmitDialog from "./levelSubmitDialog";
 
-export default function LevelSearch({ nlwData, setSearchedLevel }) {
+export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
    const [levels, setLevels] = useState([]);
 
    useEffect(() => {
@@ -10,18 +10,28 @@ export default function LevelSearch({ nlwData, setSearchedLevel }) {
          let levels = [];
          let counter = 0;
 
-         nlwData.map((tier) => {
-            tier.levels.map((level) => {
-               levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
-               counter++;
-            })
-         });
+         if (platformer) {
+            nlwData.platformers?.map((tier) => {
+               tier.levels.map((level) => {
+                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                  counter++;
+               })
+            });
+         } else {
+            nlwData.demons?.map((tier) => {
+               tier.levels.map((level) => {
+                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                  counter++;
+               })
+            });
+         }
+
    
          setLevels([...levels]);
       }
 
       getLevels();
-   }, [nlwData]);
+   }, [nlwData, platformer]);
 
    function findLevel(e) {
       if (e.target.innerHTML.length < 31) {
@@ -66,7 +76,7 @@ export default function LevelSearch({ nlwData, setSearchedLevel }) {
                      </li>
                   )}
                   autoSelect
-                  sx={{ width: {xs: 300, sm: 175, md: 300} , bgcolor: 'gray' }}
+                  sx={{ width: {xs: 300, sm: 175, md: 180} , bgcolor: 'gray' }}
                   getOptionLabel={(option) => option.name}
                   getOptionKey={(option) => option.uid}
                   onChange={(event) => findLevel(event)}

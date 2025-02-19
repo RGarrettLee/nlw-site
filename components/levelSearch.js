@@ -76,7 +76,7 @@ export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
                      </li>
                   )}
                   autoSelect
-                  sx={{ width: {xs: 300, sm: 175, md: 180} , bgcolor: 'gray' }}
+                  sx={{ width: {xs: 300, sm: 175, md: 180, lg: 300} , bgcolor: 'gray' }}
                   getOptionLabel={(option) => option.name}
                   getOptionKey={(option) => option.uid}
                   onChange={(event) => findLevel(event)}

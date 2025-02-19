@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from '@headlessui/react';
 import LevelSearch from '../components/levelSearch';
 
-export default function Home({ nlwData }) {
+export default function Home({ nlwData, user }) {
    const [level, setLevel] = useState({});
    const [platformer, setPlatformer] = useState(false);
    const infoMsg = <p className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center'>This website, inspired by the NLW spreadsheet, aims to enhance the user experience of the spreadsheet making information easier to find and access. The website allows users to submit records to track progress as well as have a global leaderboard. This website is a token of appreciation for all the work done by the mods maintaining the list for all of us to use. Join the <a href='https://discord.gg/vW88ZFtTY2' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>Discord server</a> to address issues or be apart of the community</p>
 
    return (
       <>
-        <div className='flex min-h-screen min-w-screen overflow-x-scroll snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-          <div className='block sm:flex sm:flex-col px-4 pt-4 w-screen justify-stretch flex-shrink-0 snap-center sm:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+        <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
+          <div className='flex flex-col px-4 pt-4 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
               <div className='flex flex-col items-start gap-2'>
                 <div className='flex flex-col'>
                     <p className='font-inter'>{platformer ? 'Platformer Levels' : 'Regular Levels'}</p>
@@ -33,22 +33,26 @@ export default function Home({ nlwData }) {
               <div className='flex flex-col pb-10 sm:pb-0'>
                 {nlwData.map((tier, key) => (
                     <Disclosure key={key} as='div' className='py-2' defaultOpen={false}>
-                      <DisclosureButton className='group flex bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg w-fit px-4 py-1 duration-200 transition-colors items-center justify-between gap-1'>
-                          <span className='text-xl font-inter text-white group-data-[hover]:text-white/80'>{tier.name}</span>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
-                            <path fillRule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clipRule="evenodd" />
-                          </svg>
-                      </DisclosureButton>
-                      <DisclosurePanel className='mt-2 text-sm/5 text-white gap-1'>
-                          {tier.levels.map((level, index) => (
-                            <button onClick={() => setLevel(level)} key={index} className='text-lg m-0.5 text-start font-inter hover:bg-indigo-600 active:bg-indigo-500 focus:bg-purple-900 duration-200 transition-colors rounded-lg w-fit px-4 py-2'>{level.name}</button>
-                          ))}
-                      </DisclosurePanel>
+                      { ({ open }) => (
+                        <>
+                          <DisclosureButton className='group flex bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg w-fit px-4 py-1 duration-200 transition-colors items-center justify-between gap-1'>
+                            <span className='text-xl font-inter text-white group-data-[hover]:text-white/80'>{tier.name}</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`size-5 ${open ? 'rotate-180 transform' : ''} duration-200 transition-transform`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                              </svg>
+                          </DisclosureButton>
+                          <DisclosurePanel className='mt-2 text-sm/5 text-white gap-1'>
+                              {tier.levels.map((level, index) => (
+                                <button onClick={() => setLevel(level)} key={index} className='text-lg m-0.5 text-start font-inter hover:bg-indigo-600 active:bg-indigo-500 focus:bg-purple-900 duration-200 transition-colors rounded-lg w-fit px-4 py-2'>{level.name}</button>
+                              ))}
+                          </DisclosurePanel>
+                        </>
+                      )}
                     </Disclosure>
                 ))}
               </div>
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen sm:w-2/4'>
+          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen md:w-2/4'>
               {Object.keys(level).length > 0 ? (
                 <div className='flex flex-col items-center justify-center gap-4 w-full'>
                     <p className='text-4xl font-inter'>{level?.name}</p>
@@ -85,7 +89,7 @@ export default function Home({ nlwData }) {
                 </div>
               )}
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen px-4 sm:w-1/4 gap-2'>
+          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen px-4 md:w-1/4 gap-2'>
               {infoMsg}
           </div>
         </div>

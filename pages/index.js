@@ -85,7 +85,7 @@ export default function Home({ nlwData, user }) {
                     ) : (
                       <></>
                     )}
-                    <LevelSubmitDialog level={level} tier={tier.name} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
+                    <LevelSubmitDialog level={level} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
                 </div>
               ) : (
                 <div className='flex flex-col items-center justify-center w-full gap-4'>

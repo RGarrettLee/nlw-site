@@ -60,7 +60,7 @@ export default function Home({ nlwData, user }) {
                       <>
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
                         {level?.tier ? (
-                          <p className='text-xl font-inter text-indigo-200'>{level.tier.replace('Tier', '')} Tuer</p>
+                          <p className='text-xl font-inter text-indigo-200'>{level.tier.replace('Tier', '')} Tier</p>
                         ) : (
                           <></>
                         )}
@@ -85,7 +85,7 @@ export default function Home({ nlwData, user }) {
                     ) : (
                       <></>
                     )}
-                    <LevelSubmitDialog level={level} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
+                    <LevelSubmitDialog level={level} tier={tier.name} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
                 </div>
               ) : (
                 <div className='flex flex-col items-center justify-center w-full gap-4'>

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
-import { useRouter } from 'next/router';
 import ViewCompletions from '../components/viewCompletions';
-import LevelSubmitDialog from '../components/levelSubmitDialog';
 
 export default function Profile({ nlwData, user, users }) {
    const { full_name, avatar_url, completions, gd_username } = user;
@@ -10,7 +8,6 @@ export default function Profile({ nlwData, user, users }) {
    const [plevels, setPlevels] = useState([]);
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [usernames, setUsernames] = useState([]);
-   const [completionSubmission, setCompletionSubmission] = useState(false);
    const [usernameSubmission, setUsernameSubmission] = useState(false);
    const [viewCompletions, setViewCompletions] = useState(false);
    const [tier, setTier] = useState({});
@@ -78,7 +75,7 @@ export default function Profile({ nlwData, user, users }) {
       return progress;
    }
 
-   function openCompletion(tier, platformer) {
+   function openCompletion(tier) {
       let levels = [];
 
       completions.map((level) => {
@@ -93,10 +90,6 @@ export default function Profile({ nlwData, user, users }) {
       setTieredCompletions([...levels]);
       setTier(tier);
       setViewCompletions(true);
-   }
-
-   function submitCompletion() {
-      setCompletionSubmission(true);
    }
 
    function submitUsername() {
@@ -180,5 +173,3 @@ export default function Profile({ nlwData, user, users }) {
       </>
    )
 }
-
-// <LevelSubmitDialog levels={levels} nlwData={nlwData} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />

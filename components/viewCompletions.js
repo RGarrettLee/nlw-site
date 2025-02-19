@@ -25,14 +25,14 @@ export default function ViewCompletions({ completions, tier, toggle, setToggle }
                                     {level.opinion !== '' ? (
                                        <>
                                           <p className='text-md sm:text-lg font-semibold'>Personal Opinion:</p>
-                                          <Textarea className='text-md sm:text-lg min-w-full text-center text-white bg-transparent font-thin resize-none rounded-lg px-2 mb-5' readonly='true'>{level.opinion}</Textarea>
+                                          <Textarea className='text-md sm:text-lg min-w-full text-center text-white bg-transparent font-thin resize-none rounded-lg px-2 mb-5' readOnly={true}>{level.opinion}</Textarea>
                                        </>
                                     ) : (
                                        <></>
                                     )}
                                  </div>
-                                 <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="absolute bottom-1 right-2 size-6 hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                                 <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="absolute bottom-1 right-2 size-6 hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                                  </svg></a>
                               </div>
                            ))}

@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from '@headlessui/react';
-import { Tooltip } from '@mui/material';
+import { Switch } from '@headlessui/react';
+import LevelSubmitDialog from '../components/levelSubmitDialog';
 import LevelSearch from '../components/levelSearch';
 import Tiers from '../components/tiers';
 
 export default function Home({ nlwData, user }) {
    const [level, setLevel] = useState({});
    const [platformer, setPlatformer] = useState(false);
+   const [completionSubmission, setCompletionSubmission] = useState(false);
    const infoMsg = <p className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center'>This website, inspired by the NLW spreadsheet, aims to enhance the user experience of the spreadsheet making information easier to find and access. The website allows users to submit records to track progress as well as have a global leaderboard. This website is a token of appreciation for all the work done by the mods maintaining the list for all of us to use. Join the <a href='https://discord.gg/vW88ZFtTY2' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>Discord server</a> to address issues or be apart of the community</p>
 
-  useEffect(() => {
-    console.log(nlwData);
-  }, [nlwData]);
+  useEffect(() => {}, [nlwData]);
+
+  function submitCompletion() {
+    setCompletionSubmission(true);
+ }
 
    return (
       <>
@@ -22,7 +25,10 @@ export default function Home({ nlwData, user }) {
                     <p className='font-inter'>{platformer ? 'Platformer Levels' : 'Regular Levels'}</p>
                     <Switch
                     checked={platformer}
-                    onChange={setPlatformer}
+                    onChange={() => {
+                      setPlatformer(!platformer);
+                      setLevel({});
+                    }}
                     className={`${platformer ? 'bg-indigo-700' : 'bg-indigo-500'}
                       relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                     >
@@ -54,7 +60,7 @@ export default function Home({ nlwData, user }) {
                       <>
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
                         {level?.tier ? (
-                          <p className='text-xl font-inter text-indigo-200'>{level.tier}</p>
+                          <p className='text-xl font-inter text-indigo-200'>{level.tier.replace('Tier', '')} Tuer</p>
                         ) : (
                           <></>
                         )}
@@ -70,22 +76,39 @@ export default function Home({ nlwData, user }) {
                         </div>
                         <p className='text-xl font-inter border-t-2 pt-2 w-3/4 text-center border-indigo-500'>Description:</p>
                         <p className='text-center text-md px-4 font-medium text-indigo-200'>{level?.desc}</p>
+                        {user?.full_name ? (
+                          <button onClick={() => submitCompletion()} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit Completion</button>
+                        ) : (
+                          <></>
+                        )}
                       </>
                     ) : (
                       <></>
                     )}
+                    <LevelSubmitDialog level={level} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
                 </div>
               ) : (
                 <div className='flex flex-col items-center justify-center w-full gap-4'>
-                    <p className='font-inter text-3xl'>Find a level to start!</p>
-                    <button onClick={() => {
-                        let randTier = Math.floor(Math.random() * nlwData.demons.length - 1);
-                        let randLevel = Math.floor(Math.random() * nlwData.demons[randTier].levels.length - 1);
-  
-                        let level = Object.assign({}, {'tier': nlwData.demons[randTier].name}, nlwData.demons[randTier].levels[randLevel]);
-
-                      setLevel(level);
-                    }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
+                  {nlwData?.demons ? (
+                    <>
+                      <p className='font-inter text-3xl'>Find a level to start!</p>
+                      <button onClick={() => {
+                        let level = {};
+                        if (platformer) {
+                          let randTier = Math.floor(Math.random() * nlwData?.platformers?.length);
+                          let randLevel = Math.floor(Math.random() * nlwData?.platformers[randTier]?.levels.length);
+                          level = Object.assign({}, {'tier': nlwData?.platformers[randTier]?.name}, nlwData?.platformers[randTier]?.levels[randLevel]);
+                        } else {
+                          let randTier = Math.floor(Math.random() * nlwData?.demons?.length);
+                          let randLevel = Math.floor(Math.random() * nlwData?.demons[randTier]?.levels.length);
+                          level = Object.assign({}, {'tier': nlwData?.demons[randTier]?.name}, nlwData?.demons[randTier]?.levels[randLevel]);
+                        }
+                        setLevel(level);
+                      }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
+                    </>
+                  ) : (
+                    <p className='font-inter text-3xl'>Loading level data...</p>
+                  )}
                 </div>
               )}
           </div>

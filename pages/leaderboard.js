@@ -55,8 +55,9 @@ export default function Leaderboard({ users }) {
          let temp = user;
          temp.completions = levels;
          temp.tiers = tiers;
+         temp.sortedTiers = tiers;
          temp.tiers.sort((a, b) => b.count - a.count);
-         setSortedTiers([...temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()))]);
+         temp.sortedTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          userList.push(temp);
       });
 
@@ -92,7 +93,7 @@ export default function Leaderboard({ users }) {
                         <p className='font-inter text-4xl'>{user.full_name}</p>
                      </div>
                      <div className='flex flex-wrap items-center justify-items-center gap-3'>
-                           {sortedTiers.map((tier, key) => (
+                           {user.sortedTiers.map((tier, key) => (
                               <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                            ))}
                      </div>

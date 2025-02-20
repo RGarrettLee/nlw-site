@@ -51,7 +51,7 @@ export default function Leaderboard({ users }) {
 
       setRanked([...userList]);
       setUser(ranked[0]);
-   }, [users]);
+   }, [users, Colours]);
 
    return (
       <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>

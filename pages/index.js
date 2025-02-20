@@ -12,10 +12,6 @@ export default function Home({ nlwData, user }) {
 
   useEffect(() => {}, [nlwData]);
 
-  function submitCompletion() {
-    setCompletionSubmission(true);
- }
-
    return (
       <>
         <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
@@ -65,7 +61,7 @@ export default function Home({ nlwData, user }) {
                           <></>
                         )}
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
-                          {platformer ? <p className='text-xl font-inter text-center'>Checkpoints:</p> : <p className='text-xl font-inter text-center'>Length:</p>}
+                          {platformer ? <p className='text-xl font-inter text-center'>Checkp.</p> : <p className='text-xl font-inter text-center'>Length:</p>}
                           <p className='text-xl font-inter text-center'>Skillsets:</p>
                           <p className='text-xl font-inter text-center'>Enjoyment:</p>
                         </div>
@@ -77,7 +73,7 @@ export default function Home({ nlwData, user }) {
                         <p className='text-xl font-inter border-t-2 pt-2 w-3/4 text-center border-indigo-500'>Description:</p>
                         <p className='text-center text-md px-4 font-medium text-indigo-200'>{level?.desc}</p>
                         {user?.full_name ? (
-                          <button onClick={() => submitCompletion()} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit Completion</button>
+                          <button onClick={() => setCompletionSubmission(true)} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit Completion</button>
                         ) : (
                           <></>
                         )}

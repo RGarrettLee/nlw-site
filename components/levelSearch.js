@@ -1,6 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
-import LevelSubmitDialog from "./levelSubmitDialog";
 
 export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
    const [levels, setLevels] = useState([]);

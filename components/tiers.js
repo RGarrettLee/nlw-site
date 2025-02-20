@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { Tooltip } from '@mui/material';
 import Colours from '../util/colours';

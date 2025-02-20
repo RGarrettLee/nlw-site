@@ -1,11 +1,26 @@
 import { useState, useEffect } from 'react';
-import ViewCompletions from '../components/viewCompletions';
+import Completions from '../components/completions';
+import Colours from '../util/colours';
 
 export default function Leaderboard({ users }) {
+   const { colours } = Colours();
    const [ranked, setRanked] = useState([]);
-   const [tier, setTier] = useState({});
-   const [completions, setCompletions] = useState([]);
-   const [viewCompletions, setViewCompletions] = useState(false);
+   const [sortedTiers, setSortedTiers] = useState([]);
+   const [user, setUser] = useState({});
+   const sortOrder = [
+      'Catastrophic',
+      'Terrifying',
+      'Relentless',
+      'Remorseless',
+      'Extreme',
+      'Insane',
+      'Very Hard',
+      'Hard',
+      'Medium',
+      'Easy',
+      'Beginner',
+      'Fuck'
+   ]
 
    useEffect(() => {
       let userList = [];
@@ -28,58 +43,53 @@ export default function Leaderboard({ users }) {
          temp.completions = levels;
          temp.tiers = tiers;
          temp.tiers.sort((a, b) => b.count - a.count);
+         setSortedTiers([...temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()))]);
          userList.push(temp);
       });
 
       userList.sort((a, b) => b.completions.length - a.completions.length);
 
       setRanked([...userList]);
+      setUser(ranked[0]);
    }, [users]);
 
-   function openCompletion(tier, user) {
-      let levels = [];
-
-      user.completions.map((level) => {
-         if (tier.name.toLowerCase().trim() === level.tier.toLowerCase().trim()) {
-            if (user.completions.find(({ creators }) => creators === level.creators)?.status === 'approved' && user.completions.find(({ name }) => name === level.name)) {
-               levels.push(level);
-            }
-         }
-      });
-
-      setCompletions([...levels]);
-      setTier(tier);
-      setViewCompletions(true);
-   }
-
    return (
-      <div className='flex items-center justify-center min-w-screen min-h-screen gap-3'>
-         <div className='flex flex-col items-center justify-center gap-2 backdrop-blur-sm p-10  rounded-xl'>
-            <h2 className='font-inter text-3xl underline-offset-2 underline'>Leaderboard</h2>
-            {ranked.map((user, key) => (
-               <div key={key} className='sm:grid grid-cols-2 gap-2 items-center justify-center'>
-                  <a href={`/profile/${user.full_name}`} className='hover:bg-white/5 rounded-lg transition-colors duration-200 px-3 py-2'>
-                     <div className='flex flex-col items-center justify-center min-w-64'>
-                        <div className='flex gap-2 items-center justify-center'>
-                           <p className={`${key === 0 ? 'text-yellow-400' : 'text-slate-400'} font-inter text-2xl`}>#{key+1}</p>
-                           <img src={user.avatar_url} className='rounded-full' height={50} width={50} alt='user pfp' />
-                           <p className='text-xl font-inter'>{user.full_name}</p>
+      <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
+         <div className='flex flex-col px-4 pt-4 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+            <div className='flex flex-col pb-10 sm:pb-0 items-center justify-center gap-2'>
+               {ranked.map((u, key) => (
+                  <button key={key} onClick={() => setUser(u)} className={`flex gap-2 items-center justify-center bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 ${u === user ? 'bg-purple-900' : ''} rounded-lg transition-colors duration-200 px-3 py-2`}>
+                        <div className='flex flex-col items-center justify-center min-w-64'>
+                           <div className='flex gap-2 items-center justify-center'>
+                              <p className={`${key === 0 ? 'text-yellow-400' : 'text-slate-400'} font-inter text-2xl`}>#{key+1}</p>
+                              <img src={u.avatar_url} className='rounded-full' height={50} width={50} alt='user pfp' />
+                              <p className='text-xl font-inter'>{u.full_name}</p>
+                           </div>
                         </div>
-                        <p className='text-lg font-medium underline-offset-2 underline'><span className='text-green-500 font-inter'>{user.completions.length}</span> demons completed</p>
+                  </button>
+               ))}
+            </div>
+         </div>
+         <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center md:w-3/4'>
+            {user?.full_name ? (
+               <div className='flex flex-col items-center justify-center gap-10'>
+                  <div className='flex flex-col items-center justify-center gap-5'>
+                     <div className='flex gap-5 items-center justify-center'>
+                        <img src={user.avatar_url} className='rounded-full' height={100} width={100} alt='user pfp' />
+                        <p className='font-inter text-4xl'>{user.full_name}</p>
                      </div>
-                  </a>
-                  <div className='flex flex-col items-center justify-center'>
-                     <p className='text-lg font-inter'>Tiers:</p>
-                     <div className='grid grid-cols-2 sm:grid-cols-3 grid-rows-subgrid justify-items-center gap-2'>
-                        {user.tiers.map((tier, key) => (
-                           <button key={key} onClick={() => openCompletion(tier, user)} className='bg-indigo-700 hover:bg-indigo-600 active:bg-indigo-500 duration-200 transition-colors rounded-lg px-4 py-2 font-medium text-center'><span className='text-green-400'>{tier.count}</span> {tier.name}</button>
-                        ))}
+                     <div className='flex flex-wrap items-center justify-items-center gap-3'>
+                           {sortedTiers.map((tier, key) => (
+                              <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                           ))}
                      </div>
                   </div>
+                  <Completions completions={user.completions} />
                </div>
-            ))}
+            ) : (
+               <p className='font-inter text-3xl'>Loading leaderboard...</p>
+            )}
          </div>
-         <ViewCompletions completions={completions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />
       </div>
    )
 }

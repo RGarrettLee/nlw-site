@@ -4,7 +4,6 @@ import Colours from '../util/colours';
 
 export default function Leaderboard({ users }) {
    const [ranked, setRanked] = useState([]);
-   const [sortedTiers, setSortedTiers] = useState([]);
    const [user, setUser] = useState({});
    const sortOrder = [
       'Catastrophic',
@@ -84,15 +83,15 @@ export default function Leaderboard({ users }) {
                ))}
             </div>
          </div>
-         <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center md:w-3/4'>
+         <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center pt-10 sm:pt-0 md:w-3/4'>
             {user?.full_name ? (
                <div className='flex flex-col items-center justify-center gap-10'>
                   <div className='flex flex-col items-center justify-center gap-5'>
-                     <div className='flex gap-5 items-center justify-center'>
+                     <a href={`/profile/${user.full_name}`} className='flex gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 duration-200 transition-colours'>
                         <img src={user.avatar_url} className='rounded-full' height={100} width={100} alt='user pfp' />
                         <p className='font-inter text-4xl'>{user.full_name}</p>
-                     </div>
-                     <div className='flex flex-wrap items-center justify-items-center gap-3'>
+                     </a>
+                     <div className='flex flex-wrap items-center justify-center gap-3'>
                            {user.sortedTiers.map((tier, key) => (
                               <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                            ))}

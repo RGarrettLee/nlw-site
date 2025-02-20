@@ -3,7 +3,6 @@ import Completions from '../components/completions';
 import Colours from '../util/colours';
 
 export default function Leaderboard({ users }) {
-   const { colours } = Colours();
    const [ranked, setRanked] = useState([]);
    const [sortedTiers, setSortedTiers] = useState([]);
    const [user, setUser] = useState({});
@@ -20,7 +19,21 @@ export default function Leaderboard({ users }) {
       'Easy',
       'Beginner',
       'Fuck'
-   ]
+   ];
+   const colours = {
+      'Beginner Tier': 'bg-beginner',
+      'Easy Tier': 'bg-easy',
+      'Medium Tier': 'bg-medium',
+      'Hard Tier': 'bg-hard',
+      'Very Hard Tier': 'bg-veryhard',
+      'Insane Tier': 'bg-insane',
+      'Extreme Tier': 'bg-extreme',
+      'Remorseless Tier': 'bg-remorseless',
+      'Relentless Tier': 'bg-relentless',
+      'Terrifying Tier': 'bg-terrifying',
+      'Catastrophic Tier': 'bg-catastrophic',
+      'Fuck': 'bg-fuck',
+   };
 
    useEffect(() => {
       let userList = [];

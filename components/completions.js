@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Colours from '../util/colours';
 
 export default function Completions({ completions }) {
-   const { colours } = Colours();
    const sortOrder = [
       'Catastrophic',
       'Terrifying',
@@ -16,7 +15,21 @@ export default function Completions({ completions }) {
       'Easy',
       'Beginner',
       'Fuck'
-   ]
+   ];
+   const colours = {
+      'Beginner Tier': 'bg-beginner',
+      'Easy Tier': 'bg-easy',
+      'Medium Tier': 'bg-medium',
+      'Hard Tier': 'bg-hard',
+      'Very Hard Tier': 'bg-veryhard',
+      'Insane Tier': 'bg-insane',
+      'Extreme Tier': 'bg-extreme',
+      'Remorseless Tier': 'bg-remorseless',
+      'Relentless Tier': 'bg-relentless',
+      'Terrifying Tier': 'bg-terrifying',
+      'Catastrophic Tier': 'bg-catastrophic',
+      'Fuck': 'bg-fuck',
+   };
 
    const [sortedCompletions, setSortedCompletions] = useState([]);
 

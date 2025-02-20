@@ -48,7 +48,7 @@ export default function Tiers({ tierData, setLevel }) {
    };
 
    function returnLevel(level, tier) {
-      setLevel(Object.assign({}, { 'tier': tier.name.replace(' Tier', '') }, level));
+      setLevel(Object.assign({}, { 'tier': tier.name.replace('Tier', '') }, level));
    }
 
    return (

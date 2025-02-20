@@ -47,6 +47,10 @@ export default function Tiers({ tierData, setLevel }) {
       'Fuck': 'bg-fuck',
    };
 
+   function returnLevel(level, tier) {
+      setLevel(Object.assign({}, { 'tier': tier.name.replace(' Tier', '') }, level));
+   }
+
    return (
       <>
          {tierData?.map((tier, key) => (
@@ -63,7 +67,7 @@ export default function Tiers({ tierData, setLevel }) {
                   </Tooltip>
                   <DisclosurePanel className='mt-2 text-sm/5 text-white gap-1'>
                      {tier.levels?.map((level, index) => (
-                        <button onClick={() => setLevel(level)} key={index} className='text-lg m-0.5 text-start font-inter hover:bg-indigo-600 active:bg-indigo-500 focus:bg-purple-900 duration-200 transition-colors rounded-lg w-fit px-4 py-2'>{level.name}</button>
+                        <button onClick={() => returnLevel(level, tier)} key={index} className='text-lg m-0.5 text-start font-inter hover:bg-indigo-600 active:bg-indigo-500 focus:bg-purple-900 duration-200 transition-colors rounded-lg w-fit px-4 py-2'>{level.name}</button>
                      ))}
                   </DisclosurePanel>
                </>

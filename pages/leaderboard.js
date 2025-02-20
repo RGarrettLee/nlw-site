@@ -50,7 +50,7 @@ export default function Leaderboard({ users }) {
       userList.sort((a, b) => b.completions.length - a.completions.length);
 
       setRanked([...userList]);
-      setUser(ranked[0]);
+      setUser(userList[0]);
    }, [users, Colours]);
 
    return (

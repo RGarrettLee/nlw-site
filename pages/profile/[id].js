@@ -5,6 +5,8 @@ import ViewCompletions from '../../components/viewCompletions';
 export default function Page({ users, nlwData }) {
    const [user, setUser] = useState({});
    const [levels, setLevels] = useState([]);
+   const [plevels, setPlevels] = useState([]);
+   const [isPlatformer, setIsPlatformer] = useState(false);
    const [viewCompletions, setViewCompletions] = useState(false);
    const [tier, setTier] = useState({});
    const [tieredCompletions, setTieredCompletions] = useState([]);
@@ -15,13 +17,21 @@ export default function Page({ users, nlwData }) {
          let levels = [];
          let counter = 0;
    
-         nlwData?.map((tier) => {
+         nlwData.demons?.map((tier) => {
             tier.levels.map((level) => {
                levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
                counter++;
             })
          });
+
+         nlwData.platformers?.map((tier) => {
+            tier.levels.map((level) => {
+               plevels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+               counter++;
+            })
+         });
    
+         setPlevels([...plevels]);
          setLevels([...levels]);
       }
 
@@ -47,13 +57,25 @@ export default function Page({ users, nlwData }) {
    function getTierProgress(tier) {
       let progress = 0;
 
-      levels?.map((level) => {
-         if (tier.name.toLowerCase() === (level?.tier + 'Tier').toLowerCase()) {
-            if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
-               progress++;
+      if (isPlatformer) {
+         plevels.map((level) => {
+            if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
+               if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+                  progress++;
+               }
+               
             }
-         }
-      })
+         })
+      } else {
+         levels.map((level) => {
+            if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
+               if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+                  progress++;
+               }
+               
+            }
+         })
+      }
 
       return progress;
    }
@@ -63,12 +85,11 @@ export default function Page({ users, nlwData }) {
 
       user?.completions.map((level) => {
          if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
-            if (user?.completions.find(({ uid }) => uid === level.uid)?.status === 'approved') {
+            if (user?.completions.find(({uid}) => uid === level.uid)?.status ==='approved' && user?.completions.find(({name}) => name === level.name) && user?.completions.find(({ platformer }) => platformer === isPlatformer)) {
                levels.push(level);
             }
          }
       })
-
       setTieredCompletions([...levels]);
       setTier(tier);
       setViewCompletions(true);
@@ -89,15 +110,31 @@ export default function Page({ users, nlwData }) {
                <div className='flex flex-col items-center justify-center gap-2'>
                   <p className='text-2xl font-inter'>Progress</p>
                   <div className='grid grid-cols-2 sm:grid-cols-2 sm:grid-rows-subgrid gap-4 backdrop-blur-sm rounded-lg px-4 py-2'>
-                     {nlwData?.map((tier, index) => (
-                        <div className='flex flex-col items-center justify-center gap-2' key={index}>
-                           <p className='text-lg text-center font-semibold'>{tier.name}</p>
-                           <button onClick={() => openCompletion(tier)} className='font-thin hover:scale-125 transition-transform duration-100'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></button>
-                           <div className='w-32 bg-gray-700 rounded-full'>
-                              <div className={`bg-indigo-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full py-0.5`} style={{ width: `${getTierProgress(tier) / tier.levels.length}%`}}>{Math.floor(getTierProgress(tier) / tier.levels.length)}%</div> {/* get percantage of completions */}
-                           </div>
-                        </div>
-                     ))}
+                     {isPlatformer ? (
+                        <>
+                           {nlwData.platformers?.map((tier, index) => (
+                              <div className='flex flex-col items-center justify-center gap-2' key={index}>
+                                 <p className='text-lg text-center font-semibold'>{tier.name}</p>
+                                 <button onClick={() => openCompletion(tier)} className='font-thin hover:scale-125 transition-transform duration-100'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></button>
+                                 <div className='w-32 bg-gray-700 rounded-full'>
+                                    <div className={`bg-indigo-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full py-0.5`} style={{ width: `${getTierProgress(tier) / tier.levels.length}%`}}>{Math.floor(getTierProgress(tier) / tier.levels.length)}%</div> {/* get percantage of completions */}
+                                 </div>
+                              </div>
+                           ))}
+                        </>
+                     ) : (
+                        <>
+                           {nlwData.demons?.map((tier, index) => (
+                              <div className='flex flex-col items-center justify-center gap-2' key={index}>
+                                 <p className='text-lg text-center font-semibold'>{tier.name}</p>
+                                 <button onClick={() => openCompletion(tier)} className='font-thin hover:scale-125 transition-transform duration-100'><span className='text-red-600 font-bold'>{getTierProgress(tier)}</span> / <span className='text-green-500 font-bold'>{tier.levels.length}</span></button>
+                                 <div className='w-32 bg-gray-700 rounded-full'>
+                                    <div className={`bg-indigo-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full py-0.5`} style={{ width: `${getTierProgress(tier) / tier.levels.length}%`}}>{Math.floor(getTierProgress(tier) / tier.levels.length)}%</div> {/* get percantage of completions */}
+                                 </div>
+                              </div>
+                           ))}
+                        </>
+                     )}
                   </div>
                </div>
                <ViewCompletions completions={tieredCompletions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />

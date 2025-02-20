@@ -81,7 +81,6 @@ export default function Profile({ nlwData, user, users }) {
       completions.map((level) => {
          if (tier.name.toLowerCase() === (level.tier + 'Tier').toLowerCase()) {
             if (completions.find(({uid}) => uid === level.uid)?.status ==='approved' && completions.find(({name}) => name === level.name) && completions.find(({ platformer }) => platformer === isPlatformer)) {
-               console.log(level);
                levels.push(level);
             }
          }
@@ -160,7 +159,6 @@ export default function Profile({ nlwData, user, users }) {
                            ))}
                         </>
                      )}
-
                   </div>
                </div>
                <ViewCompletions completions={tieredCompletions} tier={tier} toggle={viewCompletions} setToggle={setViewCompletions} />

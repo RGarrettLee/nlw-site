@@ -66,7 +66,7 @@ export default function Home({ nlwData, user }) {
                           <p className='text-xl font-inter text-center'>Enjoyment:</p>
                         </div>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
-                          {platformer ? <p className='text-lg font-medium text-center text-indigo-200'>{level['Checkp.']}</p> : <p className='text-lg font-medium text-center text-indigo-200'>{level?.length}</p>}
+                          {platformer ? <p className='text-lg font-medium text-center text-indigo-200'>{level.checkp}</p> : <p className='text-lg font-medium text-center text-indigo-200'>{level?.length}</p>}
                           <p className='text-lg font-medium text-center text-indigo-200'>{level?.skillsets}</p>
                           <p className='text-lg font-medium text-center text-indigo-200'>{level?.enj}</p>
                         </div>

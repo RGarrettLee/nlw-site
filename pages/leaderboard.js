@@ -81,13 +81,15 @@ export default function Leaderboard({ users }) {
    }, [users]);
 
    function getUser(e) {
-      let username = '';
+      if (e.target.nodeName !== 'svg') {
+         let username = '';
 
-      e.target.innerText === '' ? username = e.target.parentNode.innerText : username = e.target.innerText;
-
-      setUser(ranked.find(({ full_name }) => full_name === username));
+         e.target.innerText === '' ? username = e.target.parentNode.innerText : username = e.target.innerText;
+   
+         setUser(ranked.find(({ full_name }) => full_name === username));
+      }
    }
-
+   
    function reloadLeaderboard() {
       setIsPlatformer(!isPlatformer);
       if (isPlatformer) {
@@ -123,7 +125,7 @@ export default function Leaderboard({ users }) {
                   disablePortal
                   options={ranked}
                   renderOption={(props, option) => (
-                     <li {...props}>
+                     <li {...props} key={option.full_name}>
                         <div className='flex gap-2 items-center justify-center'>
                            <img src={option.avatar_url} className='rounded-full' height={50} width={50} alt='user pfp' />
                            <p className='font-inter text-black'>{option.full_name}</p>

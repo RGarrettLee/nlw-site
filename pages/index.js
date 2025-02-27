@@ -40,26 +40,26 @@ export default function Home({ nlwData, user }) {
               </div>
               <div className='flex flex-col pb-10 sm:pb-0'>
                 {platformer ? (
-                    <Tiers tierData={nlwData.platformers} setLevel={setLevel} />
+                    <Tiers tierData={nlwData.platformers} levels={nlwData.platformers?.levels} setLevel={setLevel} />
                 ) : (
                   <>
-                    <Tiers tierData={nlwData.demons} setLevel={setLevel} />
+                    <Tiers tierData={nlwData.demons} level={nlwData.demons?.levels} setLevel={setLevel} />
                   </>
                 )}
               </div>
           </div>
           <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen md:w-2/4'>
               {Object.keys(level).length > 0 ? (
-                <div className='flex flex-col items-center justify-center gap-4 w-full'>
+                <div className='flex flex-col items-center justify-center gap-1 sm:gap-4 w-full'>
                     <p className='text-4xl font-inter'>{level?.name}</p>
                     {level?.name !== 'None Yet!' ? (
                       <>
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
-                        <iframe width='560' height='315' className='block mx-auto border-none' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
+                        <iframe width='560' height='315' className='block px-10 py-16 sm:py-0 sm:px-44 border-none w-full' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
-                          {platformer ? <p className='text-xl font-inter text-center'>Checkp.</p> : <p className='text-xl font-inter text-center'>Length:</p>}
-                          <p className='text-xl font-inter text-center'>Skillsets:</p>
-                          <p className='text-xl font-inter text-center'>Enjoyment:</p>
+                          {platformer ? <p className='text-xl font-inter text-center'>Checkp.</p> : <p className='text-xl font-inter text-center'>Length</p>}
+                          <p className='text-xl font-inter text-center'>Skillsets</p>
+                          <p className='text-xl font-inter text-center'>Enjoyment</p>
                         </div>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
                           {platformer ? <p className='text-lg font-medium text-center text-indigo-200'>{level.checkp}</p> : <p className='text-lg font-medium text-center text-indigo-200'>{level?.length}</p>}

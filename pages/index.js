@@ -9,6 +9,20 @@ export default function Home({ nlwData, user }) {
    const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
    const infoMsg = <p className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center'>This website, inspired by the <a href='https://docs.google.com/spreadsheets/d/1YxUE2kkvhT2E6AjnkvTf-o8iu_shSLbuFkEFcZOvieA/edit?gid=190861115#gid=190861115' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>NLW Spreadsheet</a>, aims to enhance the user experience of the spreadsheet making information easier to find and access. The website allows users to submit records to track progress as well as have a global leaderboard. This website is a token of appreciation for all the work done by the mods maintaining the list for all of us to use. Join the <a href='https://discord.gg/vW88ZFtTY2' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>Discord server</a> to address issues or be apart of the community</p>
+   const colours = {
+    'Beginner ': 'text-beginner',
+    'Easy ': 'text-easy',
+    'Medium ': 'text-medium',
+    'Hard ': 'text-hard',
+    'Very Hard ': 'text-veryhard',
+    'Insane ': 'text-insane',
+    'Extreme ': 'text-extreme',
+    'Remorseless ': 'text-remorseless',
+    'Relentless ': 'text-relentless',
+    'Terrifying ': 'text-terrifying',
+    'Catastrophic ': 'text-catastrophic',
+    'Fuck': 'text-white',
+ };
 
   useEffect(() => {}, [nlwData]);
 
@@ -48,14 +62,14 @@ export default function Home({ nlwData, user }) {
                 )}
               </div>
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen md:w-2/4'>
+          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen top-0 md:w-2/4'>
               {Object.keys(level).length > 0 ? (
                 <div className='flex flex-col items-center justify-center gap-1 sm:gap-4 w-full'>
-                    <p className='text-4xl font-inter'>{level?.name}</p>
+                    <p className={`text-4xl font-inter ${colours[level?.tier]}`}>{level?.name}</p>
                     {level?.name !== 'None Yet!' ? (
-                      <>
+                      <> {/* sm:py-0 sm:px-48 xl:h-96 xl:px-72 */}
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
-                        <iframe width='560' height='315' className='block px-10 py-16 sm:py-0 sm:px-44 border-none w-full' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
+                        <iframe width='560' height='315' className='block border-none' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
                           {platformer ? <p className='text-xl font-inter text-center'>Checkp.</p> : <p className='text-xl font-inter text-center'>Length</p>}
                           <p className='text-xl font-inter text-center'>Skillsets</p>
@@ -104,7 +118,7 @@ export default function Home({ nlwData, user }) {
                 </div>
               )}
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen px-4 md:w-1/4 gap-2'>
+          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen overflow-y-scroll px-4 py-6 md:w-1/4 gap-2'>
               {infoMsg}
           </div>
         </div>

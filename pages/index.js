@@ -22,6 +22,18 @@ export default function Home({ nlwData, user }) {
     'Terrifying ': 'text-terrifying',
     'Catastrophic ': 'text-catastrophic',
     'Fuck': 'text-white',
+    'Beginner Tier': 'text-beginner',
+    'Easy Tier': 'text-easy',
+    'Medium Tier': 'text-medium',
+    'Hard Tier': 'text-hard',
+    'Very Hard Tier': 'text-veryhard',
+    'Insane Tier': 'text-insane',
+    'Extreme Tier': 'text-extreme',
+    'Remorseless Tier': 'text-remorseless',
+    'Relentless Tier': 'text-relentless',
+    'Terrifying Tier': 'text-terrifying',
+    'Catastrophic Tier': 'text-catastrophic',
+    'Fuck Tier': 'text-white',
  };
 
   useEffect(() => {}, [nlwData]);
@@ -67,7 +79,7 @@ export default function Home({ nlwData, user }) {
                 <div className='flex flex-col items-center justify-center gap-1 sm:gap-4 w-full'>
                     <p className={`text-4xl font-inter ${colours[level?.tier]}`}>{level?.name}</p>
                     {level?.name !== 'None Yet!' ? (
-                      <> {/* sm:py-0 sm:px-48 xl:h-96 xl:px-72 */}
+                      <>
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
                         <iframe width='560' height='315' className='block border-none' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>

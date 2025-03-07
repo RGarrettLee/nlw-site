@@ -81,7 +81,7 @@ export default function Home({ nlwData, user }) {
                     {level?.name !== 'None Yet!' ? (
                       <>
                         <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
-                        <iframe width='560' height='315' className='block border-none' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
+                        <iframe width='560' height='315' className='block border-none w-[400px] h-[225px] sm:w-[420px] sm:h-[235px] xl:w-[720px] xl:h-[403px]' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
                         <div className='grid grid-cols-3 justify-stretch w-full px-10'>
                           {platformer ? <p className='text-xl font-inter text-center'>Checkp.</p> : <p className='text-xl font-inter text-center'>Length</p>}
                           <p className='text-xl font-inter text-center'>Skillsets</p>

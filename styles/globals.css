@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-    scroll-behavior: smooth;
-  }
-  body {
-    background-color: #e5e5f7;
-    opacity: 1;
-    background: repeating-linear-gradient( 45deg, #444cf7, #444cf7 1px, #121212 1px, #121212 35px );
-  }
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+body {
+  background-color: #e5e5f7;
+  opacity: 1;
+  background: repeating-linear-gradient( 45deg, #444cf7, #444cf7 1px, #121212 1px, #121212 35px );
+}
+
+.defaultH {
+  height: 315px;
 }
 
 .progress-ring__circle {

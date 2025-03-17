@@ -172,7 +172,7 @@ export default function Page({ users, nlwData }) {
                         <div className='flex flex-col gap-2'>
                            {user.ptiers?.map((tier, key) => (
                               <div key={key}>
-                                 <p className='font-inter text-lg'>{tier.name}</p>
+                                 <p className='font-inter text-lg'>{tier.name} Tier</p>
                                  {user.pcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
@@ -190,7 +190,7 @@ export default function Page({ users, nlwData }) {
                         <div className='flex flex-col gap-2'>
                            {user.tiers?.map((tier, key) => (
                               <div key={key}>
-                                 <p className='font-inter text-lg'>{tier.name}</p>
+                                 <p className='font-inter text-lg'>{tier.name} Tier</p>
                                  {user.dcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
@@ -255,7 +255,7 @@ export default function Page({ users, nlwData }) {
                                  <p className={`text-xl font-medium text-center ${textColours[level?.personalRate]}`}>{level?.personalRate}</p>
                                  <p className='text-xl font-medium text-center text-indigo-200'>{level?.personalEnj}</p>
                                  <p className='text-xl font-medium text-center text-indigo-200'>{level?.attempts}</p>
-                                 <p className='text-xl font-medium text-center text-indigo-200'>{level?.worstFail}%</p>
+                                 <p className='text-xl font-medium text-center text-red-500'>{level?.worstFail}%</p>
                               </div>
                               {level?.opinion !== '' ? (
                                  <>

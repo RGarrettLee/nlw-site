@@ -165,13 +165,13 @@ export default function Leaderboard({ users }) {
                         {isPlatformer ? (
                            <>
                               {user.ptiers.map((tier, key) => (
-                                 <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                 <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                               ))}
                            </>
                         ) : (
                            <>
                               {user.tiers.map((tier, key) => (
-                                 <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                 <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                               ))}
                            </>
                         )}

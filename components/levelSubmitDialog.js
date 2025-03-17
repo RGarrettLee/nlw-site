@@ -1,16 +1,15 @@
 import { Dialog, DialogPanel, DialogTitle, Fieldset, Legend, Field, Input, Select, Label, Textarea } from '@headlessui/react';
-import { Autocomplete, TextField } from '@mui/material'
 import { useState } from 'react';
 import supabase from '../db/connection';
 
 export default function LevelSubmitDialog({ level, nlwData, platformer, user, toggle, setToggle }) {
-   const [searchedLevel, setSearchedLevel] = useState({});
    const [embed, setEmbed] = useState('');
    const [url, setUrl] = useState('');
    const [personalEnj, setPersonalEnj] = useState(0);
    const [personalRate, setPersonalRate] = useState('Beginner Tier');
    const [opinion, setOpinion] = useState('');
    const [attempts, setAttempts] = useState(0);
+   const [fail, setFail] = useState(0);
 
    function resetValues() {
       setPersonalEnj(0);
@@ -18,7 +17,6 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
       setOpinion('');
       setAttempts(0);
       setUrl('');
-      setSearchedLevel({});
       setEmbed('');
    }
 
@@ -41,7 +39,7 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
    async function submitRecord() {
       window.alert('Your record has been submitted and is awaiting approval');
 
-      let completion = Object.assign({}, { 'personalEnj': personalEnj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'video': url, 'embed': embed, 'status': 'pending', 'platformer': platformer }, level)
+      let completion = Object.assign({}, { 'personalEnj': personalEnj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'worstFail': fail, 'video': url, 'embed': embed, 'status': 'pending', 'platformer': platformer }, level)
       let completions = user.completions;
 
       completions.push(completion);
@@ -59,7 +57,7 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
       }}>
          <div className='fixed inset-0 w-screen overflow-y-auto'>
             <div className='flex flex-col min-h-full items-center justify-center'>
-            <DialogPanel transition className="flex flex-col items-center justify-center gap-4 w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
+            <DialogPanel transition className="flex flex-col items-center justify-center gap-4 w-full max-w-md rounded-xl bg-slate-900 p-6 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
                   <DialogTitle className='font-inter text-center text-2xl'>Submit Completion</DialogTitle>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" onClick={() => setToggle(false)} className="absolute size-10 sm:hidden bg-red-600 hover:bg-red-500 active:bg-red-400 top-2 right-2 rounded-lg">
                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -86,6 +84,8 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
                            <Textarea onChange={(event) => setOpinion(event.target.value)} className='resize-none w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/5' rows={4} placeholder='Optional: Share your thoughts'></Textarea>
                            <Label className='text-md/6 font-medium'>Attempt Count</Label>
                            <Input onChange={(event) => setAttempts(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' name='attempts' type='number' required />
+                           <Label className='text-mb/6 font-medium'>Worst Fail</Label>
+                           <Input onChange={(event) => setFail(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' name='fail' type='number' />
                            <Label className='text-md/6 font-medium' required>Video Link</Label>
                            <Input onChange={(event) => getEmbed(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' name='link' />
                            {embed !== '' ? (

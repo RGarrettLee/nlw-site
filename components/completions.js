@@ -45,7 +45,7 @@ export default function Completions({ completions }) {
                {sortedCompletions.map((level, key) => (
                   <div key={key}>
                      {level.status === 'approved' ? (
-                        <div className={`flex flex-col items-center justify-center ${colours[level.tier.trim() + ' Tier']}`}>
+                        <div className={`flex flex-col items-center justify-center rounded-2xl ${colours[level.tier.trim() + ' Tier']}`}>
                            <div className='flex flex-col items-start relative min-h-20'>
                               <p className={`font-inter text-2xl pt-2 px-4 ${level.tier !== 'Fuck' ? 'text-black' : 'text-red-600'}`}>{level.name}</p>
                               <p className='text-lg sm:text-2xl text-black rounded-tr-xl absolute px-3 pb-1 bottom-0 left-0 font-inter'>{level.personalEnj}</p>

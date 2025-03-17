@@ -233,7 +233,7 @@ export default function Page({ users, nlwData }) {
                   </div>
                   <div className='flex flex-col items-center justify-center w-full'>
                      {Object.keys(level).length > 0 ? (
-                        <div className='flex flex-col relative items-center justify-center gap-4 w-full'>
+                        <div className='flex flex-col relative items-center justify-center gap-4 w-full pb-4'>
                            <p className={`text-4xl ${textColours[level.tier + ['Tier']]} font-inter`}>{level?.name}</p>
                            {level?.name !== 'None Yet!' ? (
                               <>
@@ -242,20 +242,22 @@ export default function Page({ users, nlwData }) {
                                  <p className='text-xl font-inter text-white'>Skillsets:</p>
                                  <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'>{level?.skillsets}</p>
                               </div>
-                              <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="absolute top-7 right-1/3 size-6 text-white hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
+                              <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="absolute top-3 right-10 md:top-7 md:right-1/3 size-6 text-white hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                               </svg></a>
-                              <div className='grid grid-cols-4 justify-stretch w-1/2 px-10'>
-                                 <p className='text-xl font-inter text-center'>Personal Rating:</p>
-                                 <p className='text-xl font-inter text-center'>Enjoyment:</p>
-                                 <p className='text-xl font-inter text-center'>Attempts:</p>
-                                 <p className='text-xl font-inter text-center'>Worst Fail:</p>
-                              </div>
-                              <div className='grid grid-cols-4 justify-stretch w-1/2 px-10'>
-                                 <p className={`text-xl font-medium text-center ${textColours[level?.personalRate]}`}>{level?.personalRate}</p>
-                                 <p className='text-xl font-medium text-center text-indigo-200'>{level?.personalEnj}</p>
-                                 <p className='text-xl font-medium text-center text-indigo-200'>{level?.attempts}</p>
-                                 <p className='text-xl font-medium text-center text-red-500'>{level?.worstFail}%</p>
+                              <div className='flex md:flex-col w-full justify-center items-center gap-3'>
+                                 <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch sm:w-1/2 md:px-10'>
+                                    <p className='text-xl font-inter text-center'>Personal Rating:</p>
+                                    <p className='text-xl font-inter text-center'>Enjoyment:</p>
+                                    <p className='text-xl font-inter text-center'>Attempts:</p>
+                                    <p className='text-xl font-inter text-center'>Worst Fail:</p>
+                                 </div>
+                                 <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch md:w-1/2 md:px-10'>
+                                    <p className={`text-xl font-medium text-center ${textColours[level?.personalRate]}`}>{level?.personalRate}</p>
+                                    <p className='text-xl font-medium text-center text-indigo-200'>{level?.personalEnj}</p>
+                                    <p className='text-xl font-medium text-center text-indigo-200'>{level?.attempts}</p>
+                                    <p className='text-xl font-medium text-center text-red-500'>{level?.worstFail}%</p>
+                                 </div>
                               </div>
                               {level?.opinion !== '' ? (
                                  <>

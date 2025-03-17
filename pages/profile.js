@@ -151,9 +151,9 @@ export default function Profile({ user }) {
                      {isPlatformer ? (
                         <>
                         <div className='flex flex-col gap-2'>
-                           {user.tiers?.map((tier, key) => (
+                           {user.ptiers?.map((tier, key) => (
                               <div key={key}>
-                                 {/*<p className='font-inter text-lg'>{tier.name}</p>*/}
+                                 <p className='font-inter text-lg'>{tier.name}</p>
                                  {user.pcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
@@ -171,7 +171,7 @@ export default function Profile({ user }) {
                         <div className='flex flex-col gap-2'>
                            {user.tiers?.map((tier, key) => (
                               <div key={key}>
-                                 {/*<p className='font-inter text-lg'>{tier.name}</p>*/}
+                                 <p className='font-inter text-lg'>{tier.name}</p>
                                  {user.dcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
@@ -188,9 +188,29 @@ export default function Profile({ user }) {
                   </div>
                </div>
                <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center gap-10 pt-10 sm:pt-0 md:w-4/5'>
-                  <div className='flex gap-4 items-center justify-center'>
-                     <img className='rounded-full' src={profile.avatar_url} width={100} height={100} alt='user pfp' />
-                     <p className='font-inter text-4xl'>{profile.full_name}</p>
+               <div className='flex flex-col items-center gap-4'>
+                     <div className='flex gap-4 items-center justify-center'>
+                        <img className='rounded-full' src={profile.avatar_url} width={100} height={100} alt='user pfp' />
+                        <p className='font-inter text-4xl'>{profile.full_name}</p>
+                     </div>
+                     <div className='flex flex-col items-center gap-2'>
+                        <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
+                        <div className='flex flex-wrap items-center justify-center gap-3'>
+                           {isPlatformer ? (
+                              <>
+                                 {user?.ptiers?.map((tier, key) => (
+                                    <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                 ))}
+                              </>
+                           ) : (
+                              <>
+                                 {user?.tiers?.map((tier, key) => (
+                                    <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                 ))}
+                              </>
+                           )}
+                        </div>
+                     </div>
                   </div>
                   <div className='flex flex-col items-center justify-center w-full'>
                      {Object.keys(level).length > 0 ? (

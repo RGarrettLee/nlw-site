@@ -43,7 +43,8 @@ export default function Home({ nlwData, user }) {
         <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
           <div className='flex flex-col px-4 pt-4 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
               <div className='flex flex-col items-start gap-2'>
-                <div className='flex flex-col'>
+                <div className='flex gap-4 items-end justify-center'>
+                  <div className='flex flex-col'>
                     <p className='font-inter'>{platformer ? 'Platformer Levels' : 'Regular Levels'}</p>
                     <Switch
                     checked={platformer}
@@ -61,6 +62,20 @@ export default function Home({ nlwData, user }) {
                           pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                     />
                     </Switch>
+                  </div>
+                  <button onClick={() => {
+                      let level = {};
+                      if (platformer) {
+                        let randTier = Math.floor(Math.random() * nlwData?.platformers?.length);
+                        let randLevel = Math.floor(Math.random() * nlwData?.platformers[randTier]?.levels.length);
+                        level = Object.assign({}, {'tier': nlwData?.platformers[randTier]?.name}, nlwData?.platformers[randTier]?.levels[randLevel]);
+                      } else {
+                        let randTier = Math.floor(Math.random() * nlwData?.demons?.length);
+                        let randLevel = Math.floor(Math.random() * nlwData?.demons[randTier]?.levels.length);
+                        level = Object.assign({}, {'tier': nlwData?.demons[randTier]?.name}, nlwData?.demons[randTier]?.levels[randLevel]);
+                      }
+                      setLevel(level);
+                    }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
                 </div>
                 <LevelSearch nlwData={nlwData} platformer={platformer} setSearchedLevel={setLevel} />
               </div>

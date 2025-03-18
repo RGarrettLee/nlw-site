@@ -21,7 +21,7 @@ export default function Submissions() {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
-      'Fuck': 'bg-fuck',
+      'FuckTier': 'bg-white',
    };
 
    const hover = {
@@ -36,7 +36,7 @@ export default function Submissions() {
       'Relentless Tier': 'hover:bg-relentless/80',
       'Terrifying Tier': 'hover:bg-terrifying/80',
       'Catastrophic Tier': 'hover:bg-catastrophic/80',
-      'Fuck': 'bg-fuck',
+      'FuckTier': 'hover:bg-white/75',
    };
 
    const active = {
@@ -51,12 +51,12 @@ export default function Submissions() {
       'Relentless Tier': 'active:bg-relentless/60',
       'Terrifying Tier': 'active:bg-terrifying/60',
       'Catastrophic Tier': 'active:bg-catastrophic/60',
-      'Fuck': 'bg-fuck',
+      'FuckTier': 'active:bg-white/50',
    };
 
    useEffect(() => {
       async function getUsers() {
-         await supabase.from('profiles').select('full_name, avatar_url, completions, gd_username')
+         await supabase.from('profiles').select('full_name, avatar_url, completions, gdID, nickname')
          .then((result) => {
             setUsers([...result.data]);
          })
@@ -140,7 +140,7 @@ export default function Submissions() {
                      )}
                   </Disclosure>
                   ) : (
-                     <><p></p></>
+                     <></>
                   )}
                </>
             ))}
@@ -188,8 +188,8 @@ export default function Submissions() {
                      <></>
                   )}
                   <div className='flex gap-4'>
-                     <button onClick={() => approveSubmission(user, pos)} className='px-4 py-2 bg-green-500 hover:bg-green-400 active:bg-green-300 rounded-lg font-inter duration-200 transition-colors'>Approve</button>
-                     <button onClick={() => denySubmission(user, pos)} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg font-inter duration-200 transition-colors'>Reject</button>
+                     <button onClick={() => approveSubmission(user, pos)} className='text-black px-4 py-2 bg-green-500 hover:bg-green-400 active:bg-green-300 rounded-lg font-inter duration-200 transition-colors'>Approve</button>
+                     <button onClick={() => denySubmission(user, pos)} className='text-black px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg font-inter duration-200 transition-colors'>Reject</button>
                   </div>
                </div>
             ) : (

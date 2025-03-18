@@ -57,19 +57,19 @@ export default function Leaderboard({ users }) {
 
                switch (level.tier) {
                   case 'Catastrophic ':
-                     dScore += 120
+                     dScore += 180
                      break;
                   case 'Terrifying ':
-                     dScore += 90
+                     dScore += 120
                      break;
                   case 'Relentless ':
-                     dScore += 75
+                     dScore += 90
                      break;
                   case 'Remorseless ':
-                     dScore += 60
+                     dScore += 70
                      break;
                   case 'Extreme ':
-                     dScore += 50
+                     dScore += 55
                      break;
                   case 'Insane ':
                      dScore += 40
@@ -101,19 +101,19 @@ export default function Leaderboard({ users }) {
 
                switch (level.tier) {
                   case 'Catastrophic ':
-                     pScore += 120
+                     pScore += 180
                      break;
                   case 'Terrifying ':
-                     pScore += 90
+                     pScore += 120
                      break;
                   case 'Relentless ':
-                     pScore += 75
+                     pScore += 90
                      break;
                   case 'Remorseless ':
-                     pScore += 60
+                     pScore += 70
                      break;
                   case 'Extreme ':
-                     pScore += 50
+                     pScore += 55
                      break;
                   case 'Insane ':
                      pScore += 40
@@ -149,9 +149,8 @@ export default function Leaderboard({ users }) {
          temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          userList.push(temp);
       });
-
-      //userList.sort((a, b) => b.dcompletions.length - a.dcompletions.length);
-      userList.sort((a, b) => b.dScore - a.dScore); // uncomment when tier scoring is in place
+      
+      userList.sort((a, b) => b.dScore - a.dScore);
 
       setRanked([...userList]);
       setUser(userList[0]);
@@ -223,7 +222,11 @@ export default function Leaderboard({ users }) {
                            <div className='flex gap-2 items-center justify-center'>
                               <p className={`${key === 0 ? 'text-yellow-400' : 'text-slate-400'} font-inter text-2xl`}>#{key+1}</p>
                               <img src={u.avatar_url} className='rounded-full' height={50} width={50} alt='user pfp' />
-                              <p className='text-xl font-inter'>{u.full_name}</p>
+                              {u.nickname ? (
+                                 <p className='font-inter text-xl'>{u.nickname}</p>
+                              ) : (
+                                 <p className='font-inter text-xl'>{u.full_name}</p>
+                              )}         
                               {isPlatformer ? (
                                  <p className='font-inter text-lg'>{u.pScore}</p>
                               ) : (
@@ -241,7 +244,11 @@ export default function Leaderboard({ users }) {
                   <div className='flex flex-col items-center justify-center gap-5'>
                      <a href={`/profile/${user.full_name}`} className='flex gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 rounded-xl duration-200 transition-colours'>
                         <img src={user.avatar_url} className='rounded-full' height={100} width={100} alt='user pfp' />
-                        <p className='font-inter text-4xl'>{user.full_name}</p>
+                        {user.nickname ? (
+                           <p className='font-inter text-4xl'>{user.nickname}</p>
+                        ) : (
+                           <p className='font-inter text-4xl'>{user.full_name}</p>
+                        )}
                      </a>
                      <div className='flex flex-wrap items-center justify-center gap-3'>
                         {isPlatformer ? (

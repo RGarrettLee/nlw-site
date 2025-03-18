@@ -225,7 +225,11 @@ export default function Page({ user, users, nlwData }) {
                   <div className='flex flex-col items-center gap-4'>
                      <div className='flex gap-4 items-center justify-center'>
                         <img className='rounded-full' src={profile.avatar_url} width={100} height={100} alt='user pfp' />
-                        <p className='font-inter text-4xl'>{profile.full_name}</p>
+                        {profile.nickname ? (
+                           <p className='font-inter text-4xl'>{profile.nickname}</p>
+                        ) : (
+                           <p className='font-inter text-4xl'>{profile.full_name}</p>
+                        )}    
                      </div>
                      <div className='flex flex-col items-center gap-2'>
                         <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{pUser?.dcompletions?.length + pUser?.pcompletions?.length}</span></p>

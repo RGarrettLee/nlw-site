@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
   
   useEffect(() => {
     async function getData() {
-      await supabase.from('NLW').select('demons, platformers')
+      await supabase.from('NLW').select('demons, platformers, changelog')
       .then((result) => {
         let data = result['data'][0];
         setNlwData(data);
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
 
     
     async function getUsers() {
-      await supabase.from('profiles').select('full_name, avatar_url, completions, gd_username')
+      await supabase.from('profiles').select('full_name, avatar_url, completions, gdID, nickname')
       .then((result) => {
           setUsers([...result.data]);
       })
@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }) {
       });
 
       if (auth !== {}) {
-        await supabase.from('profiles').select('id, full_name, admin, completions, gd_username, avatar_url')
+        await supabase.from('profiles').select('id, full_name, admin, completions, gdID, nickname, avatar_url')
           .then((result) => {
             result.data.map((user) => {
               if (user.id === auth.id) {

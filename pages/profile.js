@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
+import EditDialog from '../components/editDialog';
 import supabase from '../db/connection';
 
 export default function Profile({ user }) {
    const [profile, setProfile] = useState({});
    const [isPlatformer, setIsPlatformer] = useState(false);
+   const [openEdit, setOpenEdit] = useState(false);
    const [level, setLevel] = useState({});
    const sortOrder = [
       'Catastrophic',
@@ -125,7 +127,7 @@ export default function Profile({ user }) {
 
       setProfile(temp);
    }, [user, sortOrder]);
-
+      
    async function deleteRecord() {
       let completions = user.completions;
       let pos = completions.indexOf(level);
@@ -203,11 +205,20 @@ export default function Profile({ user }) {
                   </div>
                </div>
                <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center gap-10 pt-10 sm:pt-0 md:w-4/5'>
-               <div className='flex flex-col items-center gap-4'>
+                  <div className='flex flex-col items-center gap-4'>
                      <div className='flex gap-4 items-center justify-center'>
                         <img className='rounded-full' src={profile.avatar_url} width={100} height={100} alt='user pfp' />
-                        <p className='font-inter text-4xl'>{profile.full_name}</p>
+                        {profile.nickname ? (
+                           <p className='font-inter text-4xl'>{profile.nickname}</p>
+                        ) : (
+                           <p className='font-inter text-4xl'>{profile.full_name}</p>
+                        )}         
                      </div>
+                     <button onClick={() => setOpenEdit(true)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-10 hover:text-white/75 active:text-white/50 duration-200 transition-colors absolute top-5 right-5">
+                     <EditDialog user={user} toggle={openEdit} setToggle={setOpenEdit} />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                     </svg></button>
                      <div className='flex flex-col items-center gap-2'>
                         <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>
@@ -283,31 +294,3 @@ export default function Profile({ user }) {
       </div>
    )
 }
-
-/*
-
-                             <Disclosure key={key} as='div' className='py-2' defaultOpen={false}>
-                              { ({ open }) => (
-                                 <>
-                                    <DisclosureButton className={`group flex ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} ${tier.name === 'Fuck' ? 'border-2 border-white/35' : ''} rounded-lg w-fit px-4 py-1 duration-200 transition-colors items-center justify-between gap-1`}>
-                                       <span className={`text-xl font-inter ${tier.name === 'Fuck' ? 'text-red-600 group-hover:text-red-400 group-active:text-red-300' : 'text-black'} duration-200 transition-colors`}>{tier.name}</span>
-                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`size-5 ${open ? '' : 'rotate-180 transform'} ${tier.name === 'Fuck' ? 'text-white' : 'text-black'} duration-200 transition-transform`}>
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-                                          </svg>
-                                    </DisclosureButton>
-                                    <DisclosurePanel className='mt-2 text-sm/5 text-white gap-1'>
-                                       {user.dcompletions?.map((level, index) => (
-                                          <div key={index}>
-                                             {level.tier === tier.name ? (
-                                                <button onClick={() => setLevel(level)} key={index} className='text-lg m-0.5 text-start font-inter hover:bg-indigo-600 active:bg-indigo-500 focus:bg-purple-900 duration-200 transition-colors rounded-lg w-fit px-4 py-2'>{level.name}</button>
-                                             ) : (
-                                                <></>
-                                             )}
-                                          </div>
-                                       ))}
-                                    </DisclosurePanel>
-                                 </>
-                              )}
-                              </Disclosure>
-
-*/

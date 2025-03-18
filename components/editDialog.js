@@ -11,11 +11,6 @@ export default function EditDialog({ user, toggle, setToggle }) {
       setGdID(parseInt(user.gdID));
    }, [user]);
 
-   function resetValues() {
-      setNick('');
-      setGdID(0);
-   }
-
    async function submitUpdates() {
       window.alert('You have updated your profile');
 
@@ -33,10 +28,7 @@ export default function EditDialog({ user, toggle, setToggle }) {
    }
 
    return (
-      <Dialog as='div' className='z-40' open={toggle} onClose={() => {
-         setToggle(false);
-         resetValues();
-      }}>
+      <Dialog as='div' className='z-40' open={toggle} onClose={() => { setToggle(false)}}>
          <div className='fixed inset-0 w-screen overflow-y-auto'>
             <div className='flex flex-col min-h-full items-center justify-center'>
                <DialogPanel transition className='flex flex-col items-center justify-center gap-4 w-full max-w-md rounded-xl bg-slate-900 p-6 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0'>

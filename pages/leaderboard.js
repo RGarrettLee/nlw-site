@@ -33,7 +33,7 @@ export default function Leaderboard({ users }) {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
-      'Fuck': 'bg-fuck',
+      'FuckTier': 'bg-white',
    };
 
    useEffect(() => {
@@ -81,6 +81,9 @@ export default function Leaderboard({ users }) {
                      dScore += 25
                      break;
                   case 'Medium ':
+                     dScore += 20
+                     break;
+                  case 'Fuck':
                      dScore += 20
                      break;
                   case 'Easy ':
@@ -149,7 +152,7 @@ export default function Leaderboard({ users }) {
          temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          userList.push(temp);
       });
-      
+
       userList.sort((a, b) => b.dScore - a.dScore);
 
       setRanked([...userList]);

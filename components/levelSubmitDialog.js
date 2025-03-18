@@ -70,11 +70,7 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
                         <Legend className='text-base/7 font-bold'>Details</Legend>
                         <Field className='flex flex-col items-center justify-center gap-2'>
                            <Label className='text-md/6 font-medium'>Enjoyment</Label>
-                           <Select onChange={(event) => setPersonalEnj(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
-                              {Array.apply(0, Array(10)).map((x, i) => (
-                                 <option key={i} className='text-black'>{i+1}</option>
-                              ))}
-                           </Select>
+                           <Input onChange={(event) => setPersonalEnj(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' type='number' step='.1' min='1' max='10' required />
                            <Label className='text-md/6 font-medium'>Personal Rating</Label>
                            <Select onChange={(event) => setPersonalRate(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
                               {nlwData?.demons.map((tier, index) => (
@@ -109,3 +105,15 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
       </Dialog>
    )
 }
+
+
+/*
+
+                           <Select onChange={(event) => setPersonalEnj(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
+                              {Array.apply(0, Array(10)).map((x, i) => (
+                                 <option key={i} className='text-black'>{i+1}</option>
+                              ))}
+                           </Select>
+
+
+*/

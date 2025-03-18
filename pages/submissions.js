@@ -180,7 +180,7 @@ export default function Submissions() {
                      </tbody>
                   </table>
                   {level?.opinion ? (
-                     <div className='flex flex-col items-center'>
+                     <div className='flex flex-col items-center w-3/4'>
                         <p className='font-inter text-xl'>Opinion:</p>
                         <p className='font-medium text-lg'>{level.opinion}</p>
                      </div>

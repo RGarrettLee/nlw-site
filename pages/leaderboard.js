@@ -130,6 +130,9 @@ export default function Leaderboard({ users }) {
                   case 'Medium ':
                      pScore += 20
                      break;
+                  case 'Fuck':
+                     pScore += 20
+                     break;
                   case 'Easy ':
                      pScore += 15
                      break;

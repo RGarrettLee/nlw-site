@@ -41,7 +41,7 @@ export default function EditDialog({ user, toggle, setToggle }) {
                         <Field className='flex flex-col items-center justify-center gap-2'>
                            <Label className='text-md/6 font-medium'>Nickname</Label>
                            <Input onChange={(event) => setNick(event.target.value)} value={nick} className='rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' />
-                           <Label className='text-md/6 font-medium'>GD Account ID</Label>
+                           <Label className='text-md/6 font-medium'>GD Account ID (Optional)</Label>
                            <Input onChange={(event) => setGdID(event.target.value)} value={gdID} className='rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' type='number' />
                         </Field>
                      </Fieldset>

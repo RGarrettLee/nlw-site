@@ -157,7 +157,7 @@ export default function Leaderboard({ users }) {
             {user?.full_name ? (
                <div className='flex flex-col items-center justify-center gap-10'>
                   <div className='flex flex-col items-center justify-center gap-5'>
-                     <a href={`/profile/${user.full_name}`} className='flex gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 duration-200 transition-colours'>
+                     <a href={`/profile/${user.full_name}`} className='flex gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 rounded-xl duration-200 transition-colours'>
                         <img src={user.avatar_url} className='rounded-full' height={100} width={100} alt='user pfp' />
                         <p className='font-inter text-4xl'>{user.full_name}</p>
                      </a>

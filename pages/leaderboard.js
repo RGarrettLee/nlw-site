@@ -44,6 +44,8 @@ export default function Leaderboard({ users }) {
          let plevels = [];
          let tiers = [];
          let ptiers = [];
+         let dScore = 0;
+         let pScore = 0;
          
          user.completions.map((level) => {
             if (user.completions.includes(level) && level.status === 'approved' && !level.platformer) {
@@ -51,6 +53,42 @@ export default function Leaderboard({ users }) {
                   tiers.push({ 'name': level.tier, 'count': 1 });
                } else {
                   tiers.find(({ name }) => name === level.tier).count+= 1;
+               }
+
+               switch (level.tier) {
+                  case 'Catastrophic ':
+                     dScore += 10000
+                     break;
+                  case 'Terrifying ':
+                     dScore += 4000
+                     break;
+                  case 'Relentless ':
+                     dScore += 1500
+                     break;
+                  case 'Remorseless ':
+                     dScore += 500
+                     break;
+                  case 'Extreme ':
+                     dScore += 200
+                     break;
+                  case 'Insane ':
+                     dScore += 100
+                     break;
+                  case 'Very Hard ':
+                     dScore += 40
+                     break;
+                  case 'Hard ':
+                     dScore += 25
+                     break;
+                  case 'Medium ':
+                     dScore += 10
+                     break;
+                  case 'Easy ':
+                     dScore += 5
+                     break;
+                  case 'Beginner ':
+                     dScore += 1
+                     break;
                }
                dlevels.push(level);
             }
@@ -60,7 +98,43 @@ export default function Leaderboard({ users }) {
                } else {
                   ptiers.find(({ name }) => name === level.tier).count+= 1;
                }
-               console.log(level);
+
+               switch (level.tier) {
+                  case 'Catastrophic ':
+                     pScore += 10000
+                     break;
+                  case 'Terrifying ':
+                     pScore += 4000
+                     break;
+                  case 'Relentless ':
+                     pScore += 1500
+                     break;
+                  case 'Remorseless ':
+                     pScore += 500
+                     break;
+                  case 'Extreme ':
+                     pScore += 200
+                     break;
+                  case 'Insane ':
+                     pScore += 100
+                     break;
+                  case 'Very Hard ':
+                     pScore += 40
+                     break;
+                  case 'Hard ':
+                     pScore += 25
+                     break;
+                  case 'Medium ':
+                     pScore += 10
+                     break;
+                  case 'Easy ':
+                     pScore += 5
+                     break;
+                  case 'Beginner ':
+                     pScore += 1
+                     break;
+               }
+
                plevels.push(level);
             }
          });
@@ -69,12 +143,15 @@ export default function Leaderboard({ users }) {
          temp.pcompletions = plevels;
          temp.ptiers = ptiers;
          temp.tiers = tiers;
+         temp.dScore = dScore;
+         temp.pScore = pScore;
          temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          userList.push(temp);
       });
 
-      userList.sort((a, b) => b.dcompletions.length - a.dcompletions.length);
+      //userList.sort((a, b) => b.dcompletions.length - a.dcompletions.length);
+      userList.sort((a, b) => b.dScore - a.dScore); // uncomment when tier scoring is in place
 
       setRanked([...userList]);
       setUser(userList[0]);
@@ -93,11 +170,11 @@ export default function Leaderboard({ users }) {
    function reloadLeaderboard() {
       setIsPlatformer(!isPlatformer);
       if (isPlatformer) {
-         setRanked([...ranked.sort((a, b) => b.dcompletions.length - a.dcompletions.length)]);
-         setUser(ranked.sort((a, b) => b.dcompletions.length - a.dcompletions.length)[0]);
+         setRanked([...ranked.sort((a, b) => b.dScore - a.dScore)]);
+         setUser(ranked.sort((a, b) => b.dScore - a.dScore)[0]);
       } else if (!isPlatformer) {
-         setRanked([...ranked.sort((a, b) => b.pcompletions.length - a.pcompletions.length)]);
-         setUser(ranked.sort((a, b) => b.pcompletions.length - a.pcompletions.length)[0]);
+         setRanked([...ranked.sort((a, b) => b.pScore - a.pScore)]);
+         setUser(ranked.sort((a, b) => b.pScore - a.pScore)[0]);
       }
    }
 
@@ -147,6 +224,11 @@ export default function Leaderboard({ users }) {
                               <p className={`${key === 0 ? 'text-yellow-400' : 'text-slate-400'} font-inter text-2xl`}>#{key+1}</p>
                               <img src={u.avatar_url} className='rounded-full' height={50} width={50} alt='user pfp' />
                               <p className='text-xl font-inter'>{u.full_name}</p>
+                              {isPlatformer ? (
+                                 <p className='font-inter text-lg'>{u.pScore}</p>
+                              ) : (
+                                 <p className='font-inter text-lg'>{u.dScore}</p>
+                              )}
                            </div>
                         </div>
                   </button>

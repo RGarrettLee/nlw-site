@@ -57,37 +57,37 @@ export default function Leaderboard({ users }) {
 
                switch (level.tier) {
                   case 'Catastrophic ':
-                     dScore += 10000
+                     dScore += 120
                      break;
                   case 'Terrifying ':
-                     dScore += 4000
+                     dScore += 90
                      break;
                   case 'Relentless ':
-                     dScore += 1500
+                     dScore += 75
                      break;
                   case 'Remorseless ':
-                     dScore += 500
+                     dScore += 60
                      break;
                   case 'Extreme ':
-                     dScore += 200
+                     dScore += 50
                      break;
                   case 'Insane ':
-                     dScore += 100
+                     dScore += 40
                      break;
                   case 'Very Hard ':
-                     dScore += 40
+                     dScore += 30
                      break;
                   case 'Hard ':
                      dScore += 25
                      break;
                   case 'Medium ':
-                     dScore += 10
+                     dScore += 20
                      break;
                   case 'Easy ':
-                     dScore += 5
+                     dScore += 15
                      break;
                   case 'Beginner ':
-                     dScore += 1
+                     dScore += 10
                      break;
                }
                dlevels.push(level);
@@ -101,37 +101,37 @@ export default function Leaderboard({ users }) {
 
                switch (level.tier) {
                   case 'Catastrophic ':
-                     pScore += 10000
+                     pScore += 120
                      break;
                   case 'Terrifying ':
-                     pScore += 4000
+                     pScore += 90
                      break;
                   case 'Relentless ':
-                     pScore += 1500
+                     pScore += 75
                      break;
                   case 'Remorseless ':
-                     pScore += 500
+                     pScore += 60
                      break;
                   case 'Extreme ':
-                     pScore += 200
+                     pScore += 50
                      break;
                   case 'Insane ':
-                     pScore += 100
+                     pScore += 40
                      break;
                   case 'Very Hard ':
-                     pScore += 40
+                     pScore += 30
                      break;
                   case 'Hard ':
                      pScore += 25
                      break;
                   case 'Medium ':
-                     pScore += 10
+                     pScore += 20
                      break;
                   case 'Easy ':
-                     pScore += 5
+                     pScore += 15
                      break;
                   case 'Beginner ':
-                     pScore += 1
+                     pScore += 10
                      break;
                }
 

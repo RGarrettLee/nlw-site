@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from '@headlessui/react';
+import { Switch } from '@headlessui/react';
+import supabase from '../db/connection';
 
 export default function Profile({ user }) {
    const [profile, setProfile] = useState({});
@@ -124,6 +125,20 @@ export default function Profile({ user }) {
 
       setProfile(temp);
    }, [user, sortOrder]);
+
+   async function deleteRecord() {
+      let completions = user.completions;
+      let pos = completions.indexOf(level);
+      let confirm = prompt(`Type the name of the level to confirm deletion: ${level.name}`);
+
+
+      if (confirm === level.name) {
+         completions.splice(pos, 1);
+         await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name);
+         window.alert(`You have deleted ${user.full_name}'s record of ${level.name}`);
+         router.reload();
+      } 
+   }
 
    return (
       <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
@@ -252,6 +267,7 @@ export default function Profile({ user }) {
                            ) : (
                               <></>
                            )}
+                           <button onClick={() => deleteRecord()} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg duration-200 transition-colors font-inter text-black'>Delete Record</button>
                         </div>
                      ) : (
                         <></>

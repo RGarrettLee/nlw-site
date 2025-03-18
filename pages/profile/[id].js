@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from '@headlessui/react';
+import { Switch } from '@headlessui/react';
+import supabase from '../../db/connection';
 
-export default function Page({ users, nlwData }) {
-   const [user, setUser] = useState({});
+export default function Page({ user, users, nlwData }) {
+   const [pUser, setUser] = useState({});
    const [profile, setProfile] = useState({});
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [level, setLevel] = useState({});
@@ -144,9 +145,23 @@ export default function Page({ users, nlwData }) {
       getUsers();
    }, [users, nlwData, router.query.id]);
 
+   async function deleteRecord() {
+      let completions = pUser.completions;
+      let pos = completions.indexOf(level);
+      let confirm = prompt(`Type the name of the level to confirm deletion: ${level.name}`);
+
+
+      if (confirm === level.name) {
+         completions.splice(pos, 1);
+         await supabase.from('profiles').update({ completions: completions }).eq('full_name', pUser.full_name);
+         window.alert(`You have deleted ${pUser.full_name}'s record of ${level.name}`);
+         router.reload();
+      } 
+   }
+
    return (
       <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-         {user?.full_name ? (
+         {pUser?.full_name ? (
             <>
                <div className='flex flex-col px-4 py-4 w-screen items-start justify-stretch flex-shrink-0 snap-center md:w-1/5 overflow-y-scroll max-h-screen gap-4'>
                   <p className='text-2xl font-inter'>Completions</p>
@@ -170,10 +185,10 @@ export default function Page({ users, nlwData }) {
                      {isPlatformer ? (
                         <>
                         <div className='flex flex-col gap-2'>
-                           {user.ptiers?.map((tier, key) => (
+                           {pUser.ptiers?.map((tier, key) => (
                               <div key={key}>
                                  <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                 {user.pcompletions?.map((level, index) => (
+                                 {pUser.pcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
                                           <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
@@ -188,10 +203,10 @@ export default function Page({ users, nlwData }) {
                         </>
                      ) : (
                         <div className='flex flex-col gap-2'>
-                           {user.tiers?.map((tier, key) => (
+                           {pUser.tiers?.map((tier, key) => (
                               <div key={key}>
                                  <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                 {user.dcompletions?.map((level, index) => (
+                                 {pUser.dcompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
                                           <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
@@ -213,17 +228,17 @@ export default function Page({ users, nlwData }) {
                         <p className='font-inter text-4xl'>{profile.full_name}</p>
                      </div>
                      <div className='flex flex-col items-center gap-2'>
-                        <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
+                        <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{pUser?.dcompletions?.length + pUser?.pcompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>
                            {isPlatformer ? (
                               <>
-                                 {user?.ptiers?.map((tier, key) => (
+                                 {pUser?.ptiers?.map((tier, key) => (
                                     <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                                  ))}
                               </>
                            ) : (
                               <>
-                                 {user?.tiers?.map((tier, key) => (
+                                 {pUser?.tiers?.map((tier, key) => (
                                     <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                                  ))}
                               </>
@@ -268,6 +283,11 @@ export default function Page({ users, nlwData }) {
                                  <></>
                               )}
                               </>
+                           ) : (
+                              <></>
+                           )}
+                           {user.admin ? (
+                              <button onClick={() => deleteRecord()} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg duration-200 transition-colors font-inter text-black'>Delete Record</button>
                            ) : (
                               <></>
                            )}

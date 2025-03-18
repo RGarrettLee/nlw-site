@@ -55,7 +55,7 @@ export default function Leaderboard({ users }) {
                dlevels.push(level);
             }
             if (user.completions.includes(level) && level.status === 'approved' && level.platformer){
-               if (!ptiers.includes(({ name }) => name === level.tier)) {
+               if (!ptiers.find(({ name }) => name === level.tier)) {
                   ptiers.push({ 'name': level.tier, 'count': 1 });
                } else {
                   ptiers.find(({ name }) => name === level.tier).count+= 1;

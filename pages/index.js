@@ -41,7 +41,7 @@ export default function Home({ nlwData, user }) {
    return (
       <>
         <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-          <div className='flex flex-col px-4 pt-4 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+          <div className='flex flex-col px-4 pt-4 pb-8 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
               <div className='flex flex-col items-start gap-2'>
                 <div className='flex gap-4 items-end justify-center'>
                   <div className='flex flex-col'>

@@ -1,10 +1,12 @@
 import { Dialog, DialogPanel, DialogTitle, Fieldset, Field, Input, Label } from '@headlessui/react';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import supabase from '../db/connection';
 
 export default function EditDialog({ user, toggle, setToggle }) {
    const [nick, setNick] = useState('');
    const [gdID, setGdID] = useState(0);
+   const router = useRouter();
 
    useEffect(() => {
       setNick(user.nickname);
@@ -25,6 +27,7 @@ export default function EditDialog({ user, toggle, setToggle }) {
 
       await supabase.from('profiles').update({ nickname: nick, gdID: gdID }).eq('full_name', user.full_name);
       setToggle(false);
+      router.reload();
    }
 
    return (

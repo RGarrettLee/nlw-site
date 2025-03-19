@@ -186,7 +186,7 @@ export default function Leaderboard({ users }) {
 
    return (
       <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-         <div className='flex flex-col px-4 pt-4 w-screen items-center justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+         <div className='flex flex-col px-4 pt-4 pb-8 w-screen items-center justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
             <div className='flex items-center gap-4'>
                <div className='flex flex-col items-center justify-center'>
                   <p className='font-inter text-xs md:text-base'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
@@ -249,12 +249,12 @@ export default function Leaderboard({ users }) {
             {user?.full_name ? (
                <div className='flex flex-col items-center justify-center gap-10'>
                   <div className='flex flex-col items-center justify-center gap-5'>
-                     <a href={`/profile/${user.full_name}`} className='flex gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 rounded-xl duration-200 transition-colours'>
-                        <img src={user.avatar_url} className='rounded-full' height={100} width={100} alt='user pfp' />
+                     <a href={`/profile/${user.full_name}`} className='flex gap-2 md:gap-5 items-center justify-center px-4 py-2 hover:bg-white/5 rounded-xl duration-200 transition-colours'>
+                        <img src={user.avatar_url} className='rounded-full scale-75 md:scale-100' height={100} width={100} alt='user pfp' />
                         {user.nickname ? (
-                           <p className='font-inter text-4xl'>{user.nickname}</p>
+                           <p className='font-inter text-3xl md:text-4xl'>{user.nickname}</p>
                         ) : (
-                           <p className='font-inter text-4xl'>{user.full_name}</p>
+                           <p className='font-inter text-3xl md:text-4xl'>{user.full_name}</p>
                         )}
                      </a>
                      <GdIconView user={user} />

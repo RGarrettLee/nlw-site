@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
 import { Autocomplete, TextField } from '@mui/material';
+import GdIconView from '../components/gdIconView';
 import Completions from '../components/completions';
 
 export default function Leaderboard({ users }) {
@@ -256,6 +257,7 @@ export default function Leaderboard({ users }) {
                            <p className='font-inter text-4xl'>{user.full_name}</p>
                         )}
                      </a>
+                     <GdIconView user={user} />
                      <div className='flex flex-wrap items-center justify-center gap-3'>
                         {isPlatformer ? (
                            <>

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
+import GdIconView from '../../components/gdIconView';
 import supabase from '../../db/connection';
 
 export default function Page({ user, users, nlwData }) {
@@ -231,6 +232,7 @@ export default function Page({ user, users, nlwData }) {
                            <p className='font-inter text-4xl'>{profile.full_name}</p>
                         )}    
                      </div>
+                     <GdIconView user={profile} />
                      <div className='flex flex-col items-center gap-2'>
                         <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{pUser?.dcompletions?.length + pUser?.pcompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>

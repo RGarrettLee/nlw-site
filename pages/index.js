@@ -8,6 +8,7 @@ export default function Home({ nlwData, user }) {
    const [level, setLevel] = useState({});
    const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
+   const [filteredLevels, setFilteredLevels] = useState([]);
    const infoMsg = <p className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center'>This website, inspired by the <a href='https://docs.google.com/spreadsheets/d/1YxUE2kkvhT2E6AjnkvTf-o8iu_shSLbuFkEFcZOvieA/edit?gid=190861115#gid=190861115' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>NLW Spreadsheet</a>, aims to enhance the user experience of the spreadsheet making information easier to find and access. The website allows users to submit records to track progress as well as have a global leaderboard. This website is a token of appreciation for all the work done by the mods maintaining the list for all of us to use. Join the <a href='https://discord.gg/vW88ZFtTY2' target='_blank' noreferrer='true' className='font-thin text-lg sm:text-lg md:text-xl 2xl:text-xl lg:text-xl text-center text-blue-400 hover:underline hover:text-blue-300 active:text-blue-200 duration-200 transition-colors'>Discord server</a> to address issues or be apart of the community</p>
    const colours = {
     'Beginner ': 'text-beginner',
@@ -35,7 +36,7 @@ export default function Home({ nlwData, user }) {
     'Catastrophic Tier': 'text-catastrophic',
     'Fuck Tier': 'text-white',
  };
-
+ 
   useEffect(() => {}, [nlwData]);
 
    return (

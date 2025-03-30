@@ -39,10 +39,12 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, se
    async function submitRecord() {
       window.alert('Your record has been submitted and is awaiting approval');
 
-      if (personalEnj > 10) setPersonalEnj(10);
-      if (personalEnj < 0) setPersonalEnj(0);
+      let enj = personalEnj;
 
-      let completion = Object.assign({}, { 'personalEnj': personalEnj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'worstFail': fail, 'video': url, 'embed': embed, 'status': 'pending', 'platformer': platformer }, level)
+      if (enj > 10) enj = 10;
+      if (enj < 0) enj = 0;
+      
+      let completion = Object.assign({}, { 'personalEnj': enj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'worstFail': fail, 'video': url, 'embed': embed, 'status': 'pending', 'platformer': platformer }, level)
       let completions = user.completions;
 
       completions.push(completion);

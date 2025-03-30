@@ -2,7 +2,7 @@ import { Dialog, DialogPanel, DialogTitle, Fieldset, Legend, Field, Input, Selec
 import { useState } from 'react';
 import supabase from '../db/connection';
 
-export default function LevelSubmitDialog({ level, nlwData, platformer, user, toggle, setToggle }) {
+export default function LevelSubmitDialog({ level, nlwData, platformer, user, setUser, toggle, setToggle }) {
    const [embed, setEmbed] = useState('');
    const [url, setUrl] = useState('');
    const [personalEnj, setPersonalEnj] = useState(0);
@@ -39,12 +39,21 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
    async function submitRecord() {
       window.alert('Your record has been submitted and is awaiting approval');
 
+      if (personalEnj > 10) setPersonalEnj(10);
+      if (personalEnj < 0) setPersonalEnj(0);
+
       let completion = Object.assign({}, { 'personalEnj': personalEnj, 'personalRate': personalRate, 'opinion': opinion, 'attempts': attempts, 'worstFail': fail, 'video': url, 'embed': embed, 'status': 'pending', 'platformer': platformer }, level)
       let completions = user.completions;
 
       completions.push(completion);
 
-      await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name)
+      let newUser = user;
+      newUser.completions = completions;
+      console.log(newUser);
+
+      setUser(newUser);
+
+      await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name);
 
       resetValues();
       setToggle(false);
@@ -69,7 +78,7 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, to
                      <Fieldset className='space-y-3 rounded-xl bg-white/5 p-6 text-center'>
                         <Legend className='text-base/7 font-bold'>Details</Legend>
                         <Field className='flex flex-col items-center justify-center gap-2'>
-                           <Label className='text-md/6 font-medium'>Enjoyment</Label>
+                           <Label className='text-md/6 font-medium'>Enjoyment (0-10)</Label>
                            <Input onChange={(event) => setPersonalEnj(event.target.value)} className='bg-white/5 py-1.5 px-3 text-sm/6 rounded-lg' type='number' step='.1' min='1' max='10' required />
                            <Label className='text-md/6 font-medium'>Personal Rating</Label>
                            <Select onChange={(event) => setPersonalRate(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>

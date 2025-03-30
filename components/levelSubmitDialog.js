@@ -47,12 +47,6 @@ export default function LevelSubmitDialog({ level, nlwData, platformer, user, se
 
       completions.push(completion);
 
-      let newUser = user;
-      newUser.completions = completions;
-      console.log(newUser);
-
-      setUser(newUser);
-
       await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name);
 
       resetValues();

@@ -59,6 +59,9 @@ export default function Leaderboard({ users }) {
                }
 
                switch (level.tier) {
+                  case 'Inexorable':
+                     dScore += 250
+                     break;
                   case 'Catastrophic ':
                      dScore += 180
                      break;
@@ -107,6 +110,9 @@ export default function Leaderboard({ users }) {
                }
 
                switch (level.tier) {
+                  case 'Inexorable':
+                     dScore += 250
+                     break;
                   case 'Catastrophic ':
                      pScore += 180
                      break;

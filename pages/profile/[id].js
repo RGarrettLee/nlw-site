@@ -10,6 +10,7 @@ export default function Page({ user, users, nlwData }) {
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [level, setLevel] = useState({});
    const sortOrder = [
+      'Inexorable',
       'Catastrophic',
       'Terrifying',
       'Relentless',
@@ -35,6 +36,7 @@ export default function Page({ user, users, nlwData }) {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
+      'Inexorable Tier': 'bg-inexorable',
       'Fuck': 'bg-fuck',
    };
    const textColours = {
@@ -49,6 +51,7 @@ export default function Page({ user, users, nlwData }) {
       'Relentless ': 'text-relentless',
       'Terrifying ': 'text-terrifying',
       'Catastrophic ': 'text-catastrophic',
+      'Inexorable ': 'text-inexorable',
       'Fuck': 'text-white',
       'Beginner Tier': 'text-beginner',
       'Easy Tier': 'text-easy',
@@ -61,6 +64,7 @@ export default function Page({ user, users, nlwData }) {
       'Relentless Tier': 'text-relentless',
       'Terrifying Tier': 'text-terrifying',
       'Catastrophic Tier': 'text-catastrophic',
+      'Inexorable Tier': 'text-inexorable',
       'Fuck Tier': 'text-white',
    };
    const hover = {
@@ -75,6 +79,7 @@ export default function Page({ user, users, nlwData }) {
       'Relentless Tier': 'hover:bg-relentless/80',
       'Terrifying Tier': 'hover:bg-terrifying/80',
       'Catastrophic Tier': 'hover:bg-catastrophic/80',
+      'Inexorable Tier': 'hover:bg-inexorable/80',
       'Fuck': 'bg-fuck',
    };
    const active = {
@@ -89,6 +94,7 @@ export default function Page({ user, users, nlwData }) {
       'Relentless Tier': 'active:bg-relentless/60',
       'Terrifying Tier': 'active:bg-terrifying/60',
       'Catastrophic Tier': 'active:bg-catastrophic/60',
+      'Inexorable Tier': 'active:bg-inexorable/60',
       'Fuck': 'bg-fuck',
    };
 

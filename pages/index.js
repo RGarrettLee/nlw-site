@@ -4,7 +4,7 @@ import LevelSubmitDialog from '../components/levelSubmitDialog';
 import LevelSearch from '../components/levelSearch';
 import Tiers from '../components/tiers';
 
-export default function Home({ nlwData, user }) {
+export default function Home({ nlwData, user, globalSetUser }) {
    const [level, setLevel] = useState({});
    const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
@@ -21,6 +21,7 @@ export default function Home({ nlwData, user }) {
     'Relentless ': 'text-relentless',
     'Terrifying ': 'text-terrifying',
     'Catastrophic ': 'text-catastrophic',
+    'Inexorable ': 'text-inexorable',
     'Fuck': 'text-white',
     'Beginner Tier': 'text-beginner',
     'Easy Tier': 'text-easy',
@@ -33,6 +34,7 @@ export default function Home({ nlwData, user }) {
     'Relentless Tier': 'text-relentless',
     'Terrifying Tier': 'text-terrifying',
     'Catastrophic Tier': 'text-catastrophic',
+    'Inexorable Tier': 'text-inexorable',
     'Fuck Tier': 'text-white',
  };
  
@@ -118,7 +120,7 @@ export default function Home({ nlwData, user }) {
                     ) : (
                       <></>
                     )}
-                    <LevelSubmitDialog level={level} nlwData={nlwData} platformer={platformer} user={user} toggle={completionSubmission} setToggle={setCompletionSubmission} />
+                    <LevelSubmitDialog level={level} nlwData={nlwData} platformer={platformer} user={user} setUser={globalSetUser} toggle={completionSubmission} setToggle={setCompletionSubmission} />
                 </div>
               ) : (
                 <div className='flex flex-col items-center justify-center w-full gap-4'>

@@ -25,6 +25,7 @@ module.exports = {
         'relentless': '#B087EB',
         'terrifying': '#F19EEA',
         'catastrophic': '#EA6661',
+        'inexorable': '#FFC183',
         'fuck': '#000000'
       }
     },

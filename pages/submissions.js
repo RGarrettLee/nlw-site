@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import supabase from '../db/connection';
 
-export default function Submissions() {
+export default function Submissions({ globalSetUser }) {
    const [users, setUsers] = useState();
    const [user, setUser] = useState({});
    const [level, setLevel] = useState({});
@@ -21,6 +21,7 @@ export default function Submissions() {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
+      'Inexorable Tier': 'bg-inexorable',
       'FuckTier': 'bg-white',
    };
 
@@ -36,6 +37,7 @@ export default function Submissions() {
       'Relentless Tier': 'hover:bg-relentless/80',
       'Terrifying Tier': 'hover:bg-terrifying/80',
       'Catastrophic Tier': 'hover:bg-catastrophic/80',
+      'Inexorable Tier': 'hover:bg-inexorable/80',
       'FuckTier': 'hover:bg-white/75',
    };
 
@@ -51,6 +53,7 @@ export default function Submissions() {
       'Relentless Tier': 'active:bg-relentless/60',
       'Terrifying Tier': 'active:bg-terrifying/60',
       'Catastrophic Tier': 'active:bg-catastrophic/60',
+      'Inexorable Tier': 'active:bg-inexorable/60',
       'FuckTier': 'active:bg-white/50',
    };
 
@@ -84,27 +87,29 @@ export default function Submissions() {
    }
 
    async function approveSubmission(user, key) {
-      let completions = user.completions;
-      completions[key].status = 'approved';
+      let newUser = user;
+      newUser.completions[key].status = 'approved';
 
-      await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name);
-      window.alert(`You have approved the completion of ${completions[key].name} by ${completions[key].creators} performed by ${user.full_name}`)
-      router.reload();
+      await supabase.from('profiles').update({ completions: newUser.completions }).eq('full_name', user.full_name);
+      window.alert(`You have approved the completion of ${newUser.completions[key].name} by ${newUser.completions[key].creators} performed by ${user.full_name}`);
+      setUser(newUser);
+      //router.reload();
    }
 
    async function denySubmission(user, key) {
-      let completions = user.completions;
+      let newUser = user;
 
-      window.alert(`You have denied the completion of ${completions[key].name} by ${completions[key].creators} performed by ${user.full_name}`);
+      window.alert(`You have denied the completion of ${newUser.completions[key].name} by ${newUser.completions[key].creators} performed by ${user.full_name}`);
 
-      if (completions.length > 1) {
-         completions.splice(key, 1);
+      if (newUser.completions.length > 1) {
+         newUser.completions.splice(key, 1);
       } else {
-         completions.shift();
+         newUser.completions.shift();
       }
 
-      await supabase.from('profiles').update({ completions: completions }).eq('full_name', user.full_name);
-      router.reload();
+      await supabase.from('profiles').update({ completions: newUser.completions }).eq('full_name', user.full_name);
+      setUser(newUser);
+      //router.reload();
    }
 
 

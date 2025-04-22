@@ -9,6 +9,7 @@ export default function Leaderboard({ users }) {
    const [user, setUser] = useState({});
    const [isPlatformer, setIsPlatformer] = useState(false);
    const sortOrder = [
+      'Inexorable',
       'Catastrophic',
       'Terrifying',
       'Relentless',
@@ -34,6 +35,7 @@ export default function Leaderboard({ users }) {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
+      'Inexorable Tier': 'bg-inexorable',
       'FuckTier': 'bg-white',
    };
 
@@ -94,6 +96,7 @@ export default function Leaderboard({ users }) {
                      dScore += 10
                      break;
                }
+               
                dlevels.push(level);
             }
             if (user.completions.includes(level) && level.status === 'approved' && level.platformer){

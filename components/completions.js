@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function Completions({ completions }) {
    const sortOrder = [
+      'Inexorable',
       'Catastrophic',
       'Terrifying',
       'Relentless',
@@ -27,6 +28,7 @@ export default function Completions({ completions }) {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
+      'Inexorable Tier': 'bg-inexorable',
       'Fuck Tier': 'bg-white',
    };
 

@@ -35,6 +35,7 @@ export default function Profile({ user }) {
       'Relentless Tier': 'bg-relentless',
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
+      'Inexorable Tier': 'bg-inexorable',
       'Fuck': 'bg-fuck',
    };
    const textColours = {
@@ -61,6 +62,7 @@ export default function Profile({ user }) {
       'Relentless Tier': 'text-relentless',
       'Terrifying Tier': 'text-terrifying',
       'Catastrophic Tier': 'text-catastrophic',
+      'Inexorable Tier': 'text-inexorable',
       'Fuck Tier': 'text-white',
    };
   
@@ -76,6 +78,7 @@ export default function Profile({ user }) {
       'Relentless Tier': 'hover:bg-relentless/80',
       'Terrifying Tier': 'hover:bg-terrifying/80',
       'Catastrophic Tier': 'hover:bg-catastrophic/80',
+      'Inexorable Tier': 'hover:bg-inexorable/80',
       'Fuck': 'bg-fuck',
    };
 
@@ -91,6 +94,7 @@ export default function Profile({ user }) {
       'Relentless Tier': 'active:bg-relentless/60',
       'Terrifying Tier': 'active:bg-terrifying/60',
       'Catastrophic Tier': 'active:bg-catastrophic/60',
+      'Inexorable Tier': 'active:bg-inexorable/60',
       'Fuck': 'bg-fuck',
    };
 

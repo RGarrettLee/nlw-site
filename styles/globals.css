@@ -6,6 +6,10 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 }
 body {
   background-color: #e5e5f7;

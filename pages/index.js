@@ -3,6 +3,7 @@ import { Switch } from '@headlessui/react';
 import LevelSubmitDialog from '../components/levelSubmitDialog';
 import LevelSearch from '../components/levelSearch';
 import Tiers from '../components/tiers';
+import Changelog from '../components/changelog';
 
 export default function Home({ nlwData, user, globalSetUser }) {
    const [level, setLevel] = useState({});
@@ -43,7 +44,7 @@ export default function Home({ nlwData, user, globalSetUser }) {
    return (
       <>
         <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-          <div className='flex flex-col px-4 pt-4 pb-8 w-screen justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+          <div className='flex flex-col px-4 pt-4 pb-8 w-screen flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
               <div className='flex flex-col items-start gap-2'>
                 <div className='flex gap-4 items-end justify-center'>
                   <div className='flex flex-col'>
@@ -147,8 +148,8 @@ export default function Home({ nlwData, user, globalSetUser }) {
                 </div>
               )}
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen overflow-y-scroll px-4 py-6 md:w-1/4 gap-2'>
-              {infoMsg}
+          <div className='flex flex-col 3xl:items-center 3xl:justify-center flex-shrink-0 snap-center w-screen overflow-y-scroll px-4 py-6 md:w-1/4 gap-2'>
+              <Changelog nlwData={nlwData} />
           </div>
         </div>
     </>

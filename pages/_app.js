@@ -16,9 +16,15 @@ export default function App({ Component, pageProps }) {
       .then((result) => {
         let data = result['data'][0];
         setNlwData(data);
+        console.log(data);
       })
     }
 
+    async function updatePfp(userPfp, storedPfp, full_name) {
+      if (userPfp !== storedPfp) {
+        await supabase.from('profiles').update({ 'avatar_url': userPfp }).eq('full_name', full_name)
+      }
+    }
     
     async function getUsers() {
       await supabase.from('profiles').select('full_name, avatar_url, completions, gdID, nickname')
@@ -40,6 +46,7 @@ export default function App({ Component, pageProps }) {
           .then((result) => {
             result.data.map((user) => {
               if (user.id === auth.id) {
+                updatePfp(auth.user_metadata.avatar_url, user.avatar_url, user.full_name);
                 setUser(user);
               }
             })
@@ -64,7 +71,7 @@ export default function App({ Component, pageProps }) {
         <meta name='twitter:image' content='https://static.wikia.nocookie.net/geometry-dash-unofficial/images/3/36/Extreme_Demon.png/revision/latest?cb=20180214082927'/>   
       </Head>
       <Header user={user} />
-      <Component {...pageProps} nlwData={nlwData} users={users} user={user} />
+      <Component {...pageProps} nlwData={nlwData} users={users} user={user} globalSetUser={setUser} />
       <SpeedInsights />
     </div>
   )

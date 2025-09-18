@@ -75,31 +75,31 @@ export default function Leaderboard({ users }) {
                }
 
                switch (level.tier) {
-                  case 'Nightmare':
+                  case 'Nightmare ':
                      dScore += 2000
                      break;
-                  case 'Unreal':
+                  case 'Unreal ':
                      dScore += 1500
                      break;
-                  case 'Menacing':
+                  case 'Menacing ':
                      dScore += 1200
                      break;
-                  case 'Demonic':
+                  case 'Demonic ':
                      dScore += 1000
                      break;
-                  case 'Apocalyptic':
+                  case 'Apocalyptic ':
                      dScore += 800
                      break;
-                  case 'Monstrous':
+                  case 'Monstrous ':
                      dScore += 625
                      break;
-                  case 'Merciless':
+                  case 'Merciless ':
                      dScore += 475
                      break;
-                  case 'Excruciating':
+                  case 'Excruciating ':
                      dScore += 350
                      break;
-                  case 'Inexorable':
+                  case 'Inexorable ':
                      dScore += 250
                      break;
                   case 'Catastrophic ':

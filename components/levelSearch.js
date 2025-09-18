@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
 
-export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
+export default function LevelSearch({ nlwData, lwData, listworthy, platformer, setSearchedLevel }) {
    const [levels, setLevels] = useState([]);
 
    useEffect(() => {
@@ -17,12 +17,21 @@ export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
                })
             });
          } else {
-            nlwData.demons?.map((tier) => {
-               tier.levels.map((level) => {
-                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
-                  counter++;
+            if (listworthy) {
+               lwData.demons?.map((tier) => {
+                  tier.levels.map((level) => {
+                     levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                     counter++;
+                  })
                })
-            });
+            } else {
+               nlwData.demons?.map((tier) => {
+                  tier.levels.map((level) => {
+                     levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                     counter++;
+                  })
+               });
+            }
          }
 
    
@@ -30,7 +39,7 @@ export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
       }
 
       getLevels();
-   }, [nlwData, platformer]);
+   }, [nlwData, lwData, listworthy, platformer]);
 
    function findLevel(e) {
       if (e.target.innerHTML.length < 31) {

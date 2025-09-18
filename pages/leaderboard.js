@@ -9,6 +9,14 @@ export default function Leaderboard({ users }) {
    const [user, setUser] = useState({});
    const [isPlatformer, setIsPlatformer] = useState(false);
    const sortOrder = [
+      'Nightmare',
+      'Unreal',
+      'Menacing',
+      'Demonic',
+      'Apocalyptic',
+      'Monstrous',
+      'Mericless',
+      'Excruciating',
       'Inexorable',
       'Catastrophic',
       'Terrifying',
@@ -36,6 +44,14 @@ export default function Leaderboard({ users }) {
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
       'Inexorable Tier': 'bg-inexorable',
+      'Excruciating Tier': 'bg-excruciating',
+      'Mericless Tier': 'bg-mericless',
+      'Monstrous Tier': 'bg-monstrous',
+      'Apocalyptic Tier': 'bg-apocalyptic',
+      'Demonic Tier': 'bg-demonic',
+      'Menacing Tier': 'bg-menacing',
+      'Unreal Tier': 'bg-unreal',
+      'Nightmare Tier': 'bg-nightmare',
       'FuckTier': 'bg-white',
    };
 
@@ -59,6 +75,30 @@ export default function Leaderboard({ users }) {
                }
 
                switch (level.tier) {
+                  case 'Nightmare':
+                     dScore += 2000
+                     break;
+                  case 'Unreal':
+                     dScore += 1500
+                     break;
+                  case 'Menacing':
+                     dScore += 1200
+                     break;
+                  case 'Demonic':
+                     dScore += 1000
+                     break;
+                  case 'Apocalyptic':
+                     dScore += 800
+                     break;
+                  case 'Monstrous':
+                     dScore += 625
+                     break;
+                  case 'Mericless':
+                     dScore += 475
+                     break;
+                  case 'Excruciating':
+                     dScore += 350
+                     break;
                   case 'Inexorable':
                      dScore += 250
                      break;

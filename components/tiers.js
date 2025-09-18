@@ -15,6 +15,14 @@ export default function Tiers({ tierData, setLevel }) {
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
       'Inexorable Tier': 'bg-inexorable',
+      'Excruciating Tier': 'bg-excruciating',
+      'Merciless Tier': 'bg-merciless',
+      'Monstrous Tier': 'bg-monstrous',
+      'Apocalyptic Tier': 'bg-apocalyptic',
+      'Demonic Tier': 'bg-demonic',
+      'Menacing Tier': 'bg-menacing',
+      'Unreal Tier': 'bg-unreal',
+      'Nightmare Tier': 'bg-nightmare',
       'Fuck': 'bg-fuck',
    };
 
@@ -31,6 +39,14 @@ export default function Tiers({ tierData, setLevel }) {
       'Terrifying Tier': 'hover:bg-terrifying/80',
       'Catastrophic Tier': 'hover:bg-catastrophic/80',
       'Inexorable Tier': 'hover:bg-inexorable/80',
+      'Excruciating Tier': 'hover:bg-excruciating/80',
+      'Merciless Tier': 'hover:bg-merciless/80',
+      'Monstrous Tier': 'hover:bg-monstrous/80',
+      'Apocalyptic Tier': 'hover:bg-apocalyptic/80',
+      'Demonic Tier': 'hover:bg-demonic/80',
+      'Menacing Tier': 'hover:bg-menacing/80',
+      'Unreal Tier': 'hover:bg-unreal/80',
+      'Nightmare Tier': 'hover:bg-nightmare/80',
       'Fuck': 'bg-fuck',
    };
 
@@ -47,6 +63,14 @@ export default function Tiers({ tierData, setLevel }) {
       'Terrifying Tier': 'active:bg-terrifying/60',
       'Catastrophic Tier': 'active:bg-catastrophic/60',
       'Inexorable Tier': 'active:bg-inexorable/60',
+      'Excruciating Tier': 'active:bg-excruciating/60',
+      'Merciless Tier': 'active:bg-merciless/60',
+      'Monstrous Tier': 'active:bg-monstrous/60',
+      'Apocalyptic Tier': 'active:bg-apocalyptic/60',
+      'Demonic Tier': 'active:bg-demonic/60',
+      'Menacing Tier': 'active:bg-menacing/60',
+      'Unreal Tier': 'active:bg-unreal/60',
+      'Nightmare Tier': 'active:bg-nightmare/60',
       'Fuck': 'bg-fuck',
    };
 

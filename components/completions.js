@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 
 export default function Completions({ completions }) {
    const sortOrder = [
+      'Nightmare',
+      'Unreal',
+      'Menacing',
+      'Demonic',
+      'Apocalyptic',
+      'Monstrous',
+      'Mericless',
+      'Excruciating',
       'Inexorable',
       'Catastrophic',
       'Terrifying',
@@ -29,6 +37,14 @@ export default function Completions({ completions }) {
       'Terrifying Tier': 'bg-terrifying',
       'Catastrophic Tier': 'bg-catastrophic',
       'Inexorable Tier': 'bg-inexorable',
+      'Excruciating Tier': 'bg-excruciating',
+      'Merciless Tier': 'bg-merciless',
+      'Monstrous Tier': 'bg-monstrous',
+      'Apocalyptic Tier': 'bg-apocalyptic',
+      'Demonic Tier': 'bg-demonic',
+      'Menacing Tier': 'bg-menacing',
+      'Unreal Tier': 'bg-unreal',
+      'Nightmare Tier': 'bg-nightmare',
       'Fuck Tier': 'bg-white',
    };
 

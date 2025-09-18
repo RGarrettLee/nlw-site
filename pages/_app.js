@@ -7,6 +7,7 @@ import supabase from '../db/connection';
 
 export default function App({ Component, pageProps }) {
   const [nlwData, setNlwData] = useState([]);
+  const [lwData, setLwData] = useState([]);
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
   
@@ -16,7 +17,12 @@ export default function App({ Component, pageProps }) {
       .then((result) => {
         let data = result['data'][0];
         setNlwData(data);
-        console.log(data);
+      })
+
+      await supabase.from('LW').select('demons, changelog')
+      .then((result) => {
+        let data = result['data'][0];
+        setLwData(data);
       })
     }
 
@@ -71,7 +77,7 @@ export default function App({ Component, pageProps }) {
         <meta name='twitter:image' content='https://static.wikia.nocookie.net/geometry-dash-unofficial/images/3/36/Extreme_Demon.png/revision/latest?cb=20180214082927'/>   
       </Head>
       <Header user={user} />
-      <Component {...pageProps} nlwData={nlwData} users={users} user={user} globalSetUser={setUser} />
+      <Component {...pageProps} nlwData={nlwData} lwData={lwData} users={users} user={user} globalSetUser={setUser} />
       <SpeedInsights />
     </div>
   )

@@ -26,9 +26,20 @@ module.exports = {
         'terrifying': '#F19EEA',
         'catastrophic': '#EA6661',
         'inexorable': '#FFC183',
+        'excruciating': '#FFE599',
+        'merciless': '#A7E58D',
+        'monstrous': '#5BAD96',
+        'apocalyptic': '#528CB1',
+        'demonic': '#6D6AB0',
+        'menacing': '#9452A2',
+        'unreal': '#913869',
+        'nightmare': '#832828',
         'fuck': '#000000'
       }
     },
+  },
+  variants: {
+    opacity: ({ after }) => after(['disabled'])
   },
   plugins: [],
 }

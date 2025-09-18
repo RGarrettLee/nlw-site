@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function Changelog({ nlwData }) {
+export default function Changelog({ nlwData, lwData, lw }) {
    const [clPages, setClPages] = useState([]);
    const [page, setPage] = useState(0);
 
@@ -8,21 +8,36 @@ export default function Changelog({ nlwData }) {
       let c = 0;
       let page = [];
       let pages = [];
-      nlwData?.changelog?.map((changes, index) => {
-         if (c < 10) {
-            page.push(changes);
-            c += 1;
-         } else {
-            c = 0;
-            pages.push(page);
-            page = [];
-            page.push(changes);
-         }
-      });
-      pages.push(page);
+      if (lw) {
+         lwData?.changelog?.map((changes, index) => {
+            if (c < 8) {
+               page.push(changes);
+               c += 1;
+            } else {
+               c = 0;
+               pages.push(page);
+               page = [];
+               page.push(changes);
+            }
+         });
+         pages.push(page);
+      } else {
+         nlwData?.changelog?.map((changes, index) => {
+            if (c < 10) {
+               page.push(changes);
+               c += 1;
+            } else {
+               c = 0;
+               pages.push(page);
+               page = [];
+               page.push(changes);
+            }
+         });
+         pages.push(page);
+      }
 
       setClPages([...pages]);
-   }, [nlwData])
+   }, [nlwData, lwData, lw])
 
    function changePage(type) {
         if (type === 'minus' && page > 0) {

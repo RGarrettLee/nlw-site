@@ -93,7 +93,7 @@ export default function Leaderboard({ users }) {
                   case 'Monstrous':
                      dScore += 625
                      break;
-                  case 'Mericless':
+                  case 'Merciless':
                      dScore += 475
                      break;
                   case 'Excruciating':
@@ -151,7 +151,7 @@ export default function Leaderboard({ users }) {
 
                switch (level.tier) {
                   case 'Inexorable':
-                     dScore += 250
+                     pScore += 250
                      break;
                   case 'Catastrophic ':
                      pScore += 180

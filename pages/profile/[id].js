@@ -288,7 +288,7 @@ export default function Page({ user, users, nlwData }) {
                      </div>
                      <GdIconView user={profile} />
                      <div className='flex flex-col items-center gap-2'>
-                        <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{pUser?.dcompletions?.length + pUser?.pcompletions?.length}</span></p>
+                        <p className='text-xl font-inter'>Extreme Demons Completed: <span className='text-green-500'>{pUser?.dcompletions?.length + pUser?.pcompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>
                            {isPlatformer ? (
                               <>

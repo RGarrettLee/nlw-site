@@ -275,7 +275,7 @@ export default function Profile({ user }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                      </svg></button>
                      <div className='flex flex-col items-center gap-2'>
-                        <p className='text-xl font-inter'>NLW Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
+                        <p className='text-xl font-inter'>Extreme Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>
                            {isPlatformer ? (
                               <>

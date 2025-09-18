@@ -2,7 +2,7 @@ import { Dialog, DialogPanel, DialogTitle, Fieldset, Legend, Field, Input, Selec
 import { useState, useEffect } from 'react';
 import supabase from '../db/connection';
 
-export default function LevelSubmitDialog({ level, nlwData, lwData, platformer, user, setUser, toggle, setToggle }) {
+export default function LevelSubmitDialog({ level, nlwData, platformer, user, setUser, toggle, setToggle }) {
    const [embed, setEmbed] = useState('');
    const [tiers, setTiers] = useState([]);
    const [url, setUrl] = useState('');
@@ -18,12 +18,9 @@ export default function LevelSubmitDialog({ level, nlwData, lwData, platformer, 
       nlwData.demons.map((tier) => {
          tiers.push(tier?.name?.replace('tier', ''))
       });
-      lwData.demons.map((tier) => {
-         tiers.push(tier?.name?.replace('tier', ''))
-      });
 
       setTiers([...tiers]);
-   }, [nlwData, lwData]);
+   }, [nlwData]);
 
    function resetValues() {
       setPersonalEnj(0);
@@ -93,9 +90,6 @@ export default function LevelSubmitDialog({ level, nlwData, lwData, platformer, 
                            <Label className='text-md/6 font-medium'>Personal Rating</Label>
                            <Select onChange={(event) => setPersonalRate(event.target.value)} className='w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6' required>
                               {nlwData?.demons.map((tier, index) => (
-                                 <option key={index} className='text-black' value={tier.name}>{tier?.name?.replace('tier', '')}</option>
-                              ))}
-                              {lwData?.demons.map((tier, index) => (
                                  <option key={index} className='text-black' value={tier.name}>{tier?.name?.replace('tier', '')}</option>
                               ))}
                            </Select>

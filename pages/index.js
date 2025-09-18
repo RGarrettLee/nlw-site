@@ -7,8 +7,8 @@ import Changelog from '../components/changelog';
 
 export default function Home({ nlwData, lwData, user, globalSetUser }) {
    const [level, setLevel] = useState({});
-   const [platformer, setPlatformer] = useState(false);
    const [listworthy, setListworthy] = useState(false);
+   const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
    const colours = {
     'Beginner ': 'text-beginner',
@@ -23,6 +23,14 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
     'Terrifying ': 'text-terrifying',
     'Catastrophic ': 'text-catastrophic',
     'Inexorable ': 'text-inexorable',
+    'Excruciating ': 'text-excruciating',
+    'Merciless ': 'text-merciless',
+    'Monstrous ': 'text-monstrous',
+    'Apocalyptic ': 'text-apocalyptic',
+    'Demonic ': 'text-demonic',
+    'Menacing ': 'text-menacing',
+    'Unreal ': 'text-unreal',
+    'Nightmare ': 'text-nightmare',
     'Fuck': 'text-white',
     'Beginner Tier': 'text-beginner',
     'Easy Tier': 'text-easy',
@@ -36,10 +44,18 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
     'Terrifying Tier': 'text-terrifying',
     'Catastrophic Tier': 'text-catastrophic',
     'Inexorable Tier': 'text-inexorable',
+    'Excruciating Tier': 'text-excruciating',
+    'Merciless Tier': 'text-merciless',
+    'Monstrous Tier': 'text-monstrous',
+    'Apocalyptic Tier': 'text-apocalyptic',
+    'Demonic Tier': 'text-demonic',
+    'Menacing Tier': 'text-menacing',
+    'Unreal Tier': 'text-unreal',
+    'Nightmare Tier': 'text-nightmare',
     'Fuck Tier': 'text-white',
  };
  
-  useEffect(() => {}, [nlwData, lwData]);
+  useEffect(() => {}, [nlwData]);
 
    return (
       <>
@@ -80,43 +96,14 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                       setLevel(level);
                     }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
                 </div>
-                <div className='flex gap-4'>
-                  <LevelSearch nlwData={nlwData} platformer={platformer} setSearchedLevel={setLevel} />
-                  <div className='flex flex-col'>
-                    <p className='font-inter'>{listworthy ? 'LW Levels' : 'NLW Levels'}</p>
-                    <Switch
-                    checked={listworthy}
-                    onChange={() => {
-                      setListworthy(!listworthy)
-                      setLevel({})
-                    }}
-                    className={`${platformer ? 'bg-indigo-700' : 'bg-indigo-500'}
-                      relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
-                    >
-                    <span className="sr-only">Use setting</span>
-                    <span
-                      aria-hidden="true"
-                      className={`${listworthy ? 'translate-x-9' : 'translate-x-0'}
-                          pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                    />
-                    </Switch>
-                  </div>
-                </div>
+                <LevelSearch nlwData={nlwData} platformer={platformer} setSearchedLevel={setLevel} />
               </div>
               <div className='flex flex-col pb-10 sm:pb-0'>
                 {platformer ? (
-                    <Tiers tierData={nlwData.platformers} levels={nlwData.platformers?.levels} setLevel={setLevel} />
+                  <Tiers tierData={nlwData.platformers} levels={nlwData.platformers?.levels} setLevel={setLevel} />
                 ) : (
                   <>
-                    {listworthy ? (
-                      <>
-                        <Tiers tierData={lwData.demons} level={lwData.demons?.levels} setLevel={setLevel} />
-                      </>
-                    ) : (
-                      <>
-                        <Tiers tierData={nlwData.demons} level={nlwData.demons?.levels} setLevel={setLevel} />
-                      </>
-                    )}
+                    <Tiers tierData={nlwData.demons} level={nlwData.demons?.levels} setLevel={setLevel} />
                   </>
                 )}
               </div>
@@ -154,7 +141,6 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                 </div>
               ) : (
                 <div className='flex flex-col items-center justify-center w-full gap-4'>
-                  {listworthy ? (
                     <>
                       {nlwData?.demons ? (
                         <>
@@ -177,31 +163,6 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                         <p className='font-inter text-3xl'>Loading level data...</p>
                       )}
                     </>
-                  ) : (
-                    <>
-                      {nlwData?.demons ? (
-                        <>
-                          <p className='font-inter text-3xl'>Find a level to start!</p>
-                          <button onClick={() => {
-                            let level = {};
-                            if (platformer) {
-                              let randTier = Math.floor(Math.random() * nlwData?.platformers?.length);
-                              let randLevel = Math.floor(Math.random() * nlwData?.platformers[randTier]?.levels.length);
-                              level = Object.assign({}, {'tier': nlwData?.platformers[randTier]?.name}, nlwData?.platformers[randTier]?.levels[randLevel]);
-                            } else {
-                              let randTier = Math.floor(Math.random() * nlwData?.demons?.length);
-                              let randLevel = Math.floor(Math.random() * nlwData?.demons[randTier]?.levels.length);
-                              level = Object.assign({}, {'tier': nlwData?.demons[randTier]?.name}, nlwData?.demons[randTier]?.levels[randLevel]);
-                            }
-                            setLevel(level);
-                          }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
-                        </>
-                      ) : (
-                        <p className='font-inter text-3xl'>Loading level data...</p>
-                      )}
-                    </>
-                  )}
-
                 </div>
               )}
           </div>

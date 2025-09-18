@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from 'react';
 
-export default function LevelSearch({ nlwData, lwData, listworthy, platformer, setSearchedLevel }) {
+export default function LevelSearch({ nlwData, platformer, setSearchedLevel }) {
    const [levels, setLevels] = useState([]);
 
    useEffect(() => {
@@ -23,19 +23,12 @@ export default function LevelSearch({ nlwData, lwData, listworthy, platformer, s
                   counter++;
                })
             });
-            lwData.demons?.map((tier) => {
-               tier.levels.map((level) => {
-                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
-                  counter++;
-               })
-            })
          }
-   
          setLevels([...levels]);
       }
 
       getLevels();
-   }, [nlwData, lwData, listworthy, platformer]);
+   }, [nlwData, platformer]);
 
    function findLevel(e) {
       if (e.target.innerHTML.length < 31) {

@@ -17,23 +17,19 @@ export default function LevelSearch({ nlwData, lwData, listworthy, platformer, s
                })
             });
          } else {
-            if (listworthy) {
-               lwData.demons?.map((tier) => {
-                  tier.levels.map((level) => {
-                     levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
-                     counter++;
-                  })
+            nlwData.demons?.map((tier) => {
+               tier.levels.map((level) => {
+                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                  counter++;
                })
-            } else {
-               nlwData.demons?.map((tier) => {
-                  tier.levels.map((level) => {
-                     levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
-                     counter++;
-                  })
-               });
-            }
+            });
+            lwData.demons?.map((tier) => {
+               tier.levels.map((level) => {
+                  levels.push(Object.assign({}, { 'uid': counter, 'tier': tier.name.replace('Tier', '') }, level));
+                  counter++;
+               })
+            })
          }
-
    
          setLevels([...levels]);
       }

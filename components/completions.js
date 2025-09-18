@@ -8,7 +8,7 @@ export default function Completions({ completions }) {
       'Demonic',
       'Apocalyptic',
       'Monstrous',
-      'Mericless',
+      'Merciless',
       'Excruciating',
       'Inexorable',
       'Catastrophic',

@@ -18,6 +18,7 @@ export default function Profile({ user }) {
       'Monstrous',
       'Merciless',
       'Excruciating',
+      'Inexorable',
       'Catastrophic',
       'Terrifying',
       'Relentless',

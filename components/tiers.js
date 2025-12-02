@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { Tooltip } from '@mui/material';
 
-export default function Tiers({ tierData, setLevel }) {
+export default function Tiers({ tierData, setLevel, setAdded }) {
    const colours = {
       'Beginner Tier': 'bg-beginner',
       'Easy Tier': 'bg-easy',
@@ -74,8 +74,33 @@ export default function Tiers({ tierData, setLevel }) {
       'Fuck': 'bg-fuck',
    };
 
+   const points = {
+      'Beginner Tier': 10,
+      'Easy Tier': 15,
+      'Medium Tier': 20,
+      'Hard Tier': 25,
+      'Very Hard Tier': 30,
+      'Insane Tier': 40,
+      'Extreme Tier': 55,
+      'Remorseless Tier': 70,
+      'Relentless Tier': 90,
+      'Terrifying Tier': 120,
+      'Catastrophic Tier': 180,
+      'Inexorable Tier': 250,
+      'Excruciating Tier': 350,
+      'Merciless Tier': 475,
+      'Monstrous Tier': 625,
+      'Apocalyptic Tier': 800,
+      'Demonic Tier': 1000,
+      'Menacing Tier': 1200,
+      'Unreal Tier': 1500,
+      'Nightmare Tier': 2000,
+      'Fuck': 20,
+   }
+
    function returnLevel(level, tier) {
       setLevel(Object.assign({}, { 'tier': tier.name.replace('Tier', '') }, level));
+      setAdded(false);
    }
 
    return (
@@ -84,7 +109,7 @@ export default function Tiers({ tierData, setLevel }) {
             <Disclosure key={key} as='div' className='py-2' defaultOpen={false}>
             { ({ open }) => (
                <>
-                  <Tooltip title={tier.desc} enterTouchDelay={200} slotProps={{ tooltip: { sx: { userSelect: false, textAlign: 'center', fontSize: '12px' }} }} disableInteractive arrow placement='top'>
+                  <Tooltip title={`${tier.desc} | ${points[tier.name]} points per level`} enterTouchDelay={200} slotProps={{ tooltip: { sx: { userSelect: false, textAlign: 'center', fontSize: '12px' }} }} disableInteractive arrow placement='top'>
                   <DisclosureButton className={`group flex ${colours[tier.name]} ${hover[tier.name]} ${active[tier.name]} ${tier.name === 'Fuck' ? 'border-2 border-white/35' : ''} ${open ? 'sticky top-0' : ''} rounded-lg w-fit px-4 py-1 duration-200 transition-colors items-center justify-between gap-1`}>
                      <span className={`text-xl font-inter ${tier.name === 'Fuck' ? 'text-red-600 group-hover:text-red-400 group-active:text-red-300' : 'text-black'} duration-200 transition-colors`}>{tier.name}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`size-5 ${open ? '' : 'rotate-180 transform'} ${tier.name === 'Fuck' ? 'text-white' : 'text-black'} duration-200 transition-transform`}>

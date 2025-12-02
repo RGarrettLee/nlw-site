@@ -61,7 +61,9 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
 
   async function addToWishlist() {
     let wishlist = user.wishlist;
-    wishlist.push(level);
+    let levelInfo = Object.assign({}, { 'platformer': platformer }, level);
+    
+    wishlist.push(levelInfo);
     setAdded(true);
 
     await supabase.from('profiles').update({ wishlist: wishlist }).eq('full_name', user.full_name);

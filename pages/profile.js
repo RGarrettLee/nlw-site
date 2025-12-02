@@ -156,6 +156,7 @@ export default function Profile({ user }) {
       let tiers = [];
       let pTiers = [];
       let wishTiers = [];
+      let pWishTiers = [];
 
       user.completions?.map((level) => {
          if (user.completions.includes(level) && level.status === 'approved' && !level.platformer) {
@@ -176,7 +177,7 @@ export default function Profile({ user }) {
          }
       });
       let temp = user;
-      temp.dcompletions = dLevels;
+      temp.dCompletions = dLevels;
       temp.pCompletions = pLevels;
       temp.pTiers = pTiers;
       temp.tiers = tiers;
@@ -190,21 +191,20 @@ export default function Profile({ user }) {
             } else {
                wishTiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            //dLevels.push(level);
          }
          if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && level.platformer){
-            if (!wishTiers.includes(({ name }) => name === level.tier)) {
-               wishTiers.push({ 'name': level.tier, 'count': 1 });
+            if (!pWishTiers.find(({ name }) => name === level.tier)) {
+               pWishTiers.push({ 'name': level.tier, 'count': 1 });
             } else {
-               wishTiers.find(({ name }) => name === level.tier).count+= 1;
+               pWishTiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            pLevels.push(level);
          }
       });
-      //temp.wishlist.sort();
+
       temp.wishTiers = wishTiers;
+      temp.pWishTiers = pWishTiers;
       temp.wishTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
-      //temp.pTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+      temp.pWishTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
 
       console.log(temp);
 
@@ -274,7 +274,7 @@ export default function Profile({ user }) {
                      <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
                   </div>
                   <div className='flex flex-col gap-2'>
-                     {isPlatformer ? (
+                     {isPlatformer && !isWish ? (
                         <>
                         <div className='flex flex-col gap-2'>
                            {user.pTiers?.map((tier, key) => (
@@ -297,27 +297,48 @@ export default function Profile({ user }) {
                         <div className='flex flex-col gap-2'>
                            {isWish ? (
                               <>
-                                 {user.wishTiers?.map((tier, key) => (
-                                    <div key={key}>
-                                       <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                       {user.wishlist?.map((level, index) => (
-                                          <div className='flex flex-col gap-2' key={index}>
-                                             {level.tier === tier.name ? (
-                                                <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
-                                             ) : (
-                                                <></>
-                                             )}
-                                          </div>
-                                       ))}
-                                    </div>
-                                 ))}
+                                 {isPlatformer ? (
+                                    <>
+                                    {user.pWishTiers?.map((tier, key) => (
+                                       <div key={key}>
+                                          <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                          {user.wishlist?.map((level, index) => (
+                                             <div className='flex flex-col gap-2' key={index}>
+                                                {level.tier === tier.name && level.platformer ? (
+                                                   <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                                ) : (
+                                                   <></>
+                                                )}
+                                             </div>
+                                          ))}
+                                       </div>
+                                    ))}
+                                    </>
+                                 ) : (
+                                    <>
+                                    {user.wishTiers?.map((tier, key) => (
+                                       <div key={key}>
+                                          <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                          {user.wishlist?.map((level, index) => (
+                                             <div className='flex flex-col gap-2' key={index}>
+                                                {level.tier === tier.name && !level.platformer ? (
+                                                   <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                                ) : (
+                                                   <></>
+                                                )}
+                                             </div>
+                                          ))}
+                                       </div>
+                                    ))}
+                                    </>
+                                 )}
                               </>
                            ) : (
                               <>
                                  {user.tiers?.map((tier, key) => (
                                     <div key={key}>
                                        <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                       {user.dcompletions?.map((level, index) => (
+                                       {user.dCompletions?.map((level, index) => (
                                           <div className='flex flex-col gap-2' key={index}>
                                              {level.tier === tier.name ? (
                                                 <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
@@ -351,7 +372,15 @@ export default function Profile({ user }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                      </svg></button>
                      <div className='flex flex-col items-center gap-2'>
-                        <p className='text-xl font-inter'>Extreme Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pCompletions?.length}</span></p>
+                        {isPlatformer ? ( 
+                           <>
+                              <p className='text-xl font-inter'>Platformer Extremes Completed: <span className='text-green-500'>{user?.pCompletions?.length}</span></p>
+                           </>
+                        ) : ( 
+                           <>
+                              <p className='text-xl font-inter'>Classic Extremes Completed: <span className='text-green-500'>{user?.dCompletions?.length}</span></p>
+                           </>
+                        )}
                         <div className='flex flex-wrap items-center justify-center gap-3'>
                            {isPlatformer ? (
                               <>

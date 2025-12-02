@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
     }
     
     async function getUsers() {
-      await supabase.from('profiles').select('full_name, avatar_url, completions, gdID, nickname')
+      await supabase.from('profiles').select('full_name, avatar_url, completions, gdID, nickname, wishlist')
       .then((result) => {
           setUsers([...result.data]);
       })
@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }) {
       });
 
       if (auth !== {}) {
-        await supabase.from('profiles').select('id, full_name, admin, completions, gdID, nickname, avatar_url')
+        await supabase.from('profiles').select('id, full_name, admin, completions, gdID, nickname, avatar_url, wishlist')
           .then((result) => {
             result.data.map((user) => {
               if (user.id === auth.id) {
@@ -68,7 +68,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div className='flex flex-col min-h-screen'>
       <Head>
-        <title>Non-Listworthy Extreme Demons</title>
+        <title>Extreme Demon Tiers</title>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='true' />
         <meta name='description' content='A website based on the NLW spreadsheet to make an easier user experience'/>

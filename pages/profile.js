@@ -151,10 +151,10 @@ export default function Profile({ user }) {
    const router = useRouter();
 
    useEffect(() => {
-      let dlevels = [];
-      let plevels = [];
+      let dLevels = [];
+      let pLevels = [];
       let tiers = [];
-      let ptiers = [];
+      let pTiers = [];
       let wishTiers = [];
 
       user.completions?.map((level) => {
@@ -164,24 +164,24 @@ export default function Profile({ user }) {
             } else {
                tiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            dlevels.push(level);
+            dLevels.push(level);
          }
          if (user.completions.includes(level) && level.status === 'approved' && level.platformer){
-            if (!ptiers.includes(({ name }) => name === level.tier)) {
-               ptiers.push({ 'name': level.tier, 'count': 1 });
+            if (!pTiers.find(({ name }) => name === level.tier)) {
+               pTiers.push({ 'name': level.tier, 'count': 1 });
             } else {
-               ptiers.find(({ name }) => name === level.tier).count+= 1;
+               pTiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            plevels.push(level);
+            pLevels.push(level);
          }
       });
       let temp = user;
-      temp.dcompletions = dlevels;
-      temp.pcompletions = plevels;
-      temp.ptiers = ptiers;
+      temp.dcompletions = dLevels;
+      temp.pCompletions = pLevels;
+      temp.pTiers = pTiers;
       temp.tiers = tiers;
       temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
-      temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+      temp.pTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
 
       user.wishlist?.map((level) => {
          if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && !level.platformer) {
@@ -190,7 +190,7 @@ export default function Profile({ user }) {
             } else {
                wishTiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            //dlevels.push(level);
+            //dLevels.push(level);
          }
          if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && level.platformer){
             if (!wishTiers.includes(({ name }) => name === level.tier)) {
@@ -198,13 +198,13 @@ export default function Profile({ user }) {
             } else {
                wishTiers.find(({ name }) => name === level.tier).count+= 1;
             }
-            plevels.push(level);
+            pLevels.push(level);
          }
       });
       //temp.wishlist.sort();
       temp.wishTiers = wishTiers;
       temp.wishTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
-      //temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+      //temp.pTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
 
       console.log(temp);
 
@@ -277,10 +277,10 @@ export default function Profile({ user }) {
                      {isPlatformer ? (
                         <>
                         <div className='flex flex-col gap-2'>
-                           {user.ptiers?.map((tier, key) => (
+                           {user.pTiers?.map((tier, key) => (
                               <div key={key}>
                                  <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                 {user.pcompletions?.map((level, index) => (
+                                 {user.pCompletions?.map((level, index) => (
                                     <div className='flex flex-col gap-2' key={index}>
                                        {level.tier === tier.name ? (
                                           <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
@@ -351,11 +351,11 @@ export default function Profile({ user }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                      </svg></button>
                      <div className='flex flex-col items-center gap-2'>
-                        <p className='text-xl font-inter'>Extreme Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pcompletions?.length}</span></p>
+                        <p className='text-xl font-inter'>Extreme Demons Completed: <span className='text-green-500'>{user?.dcompletions?.length + user?.pCompletions?.length}</span></p>
                         <div className='flex flex-wrap items-center justify-center gap-3'>
                            {isPlatformer ? (
                               <>
-                                 {user?.ptiers?.map((tier, key) => (
+                                 {user?.pTiers?.map((tier, key) => (
                                     <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                                  ))}
                               </>

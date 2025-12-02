@@ -198,7 +198,7 @@ export default function Page({ user, users, nlwData }) {
                      //dlevels.push(level);
                   }
                   if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && level.platformer){
-                     if (!wishTiers.includes(({ name }) => name === level.tier)) {
+                     if (!wishTiers.find(({ name }) => name === level.tier)) {
                         wishTiers.push({ 'name': level.tier, 'count': 1 });
                      } else {
                         wishTiers.find(({ name }) => name === level.tier).count+= 1;

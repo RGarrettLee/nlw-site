@@ -59,10 +59,10 @@ export default function Leaderboard({ users }) {
       let userList = [];
 
       users.map((user) => {
-         let dlevels = [];
-         let plevels = [];
+         let dLevels = [];
+         let pLevels = [];
          let tiers = [];
-         let ptiers = [];
+         let pTiers = [];
          let dScore = 0;
          let pScore = 0;
          
@@ -140,13 +140,13 @@ export default function Leaderboard({ users }) {
                      break;
                }
                
-               dlevels.push(level);
+               dLevels.push(level);
             }
             if (user.completions.includes(level) && level.status === 'approved' && level.platformer){
-               if (!ptiers.find(({ name }) => name === level.tier)) {
-                  ptiers.push({ 'name': level.tier, 'count': 1 });
+               if (!pTiers.find(({ name }) => name === level.tier)) {
+                  pTiers.push({ 'name': level.tier, 'count': 1 });
                } else {
-                  ptiers.find(({ name }) => name === level.tier).count+= 1;
+                  pTiers.find(({ name }) => name === level.tier).count+= 1;
                }
 
                switch (level.tier) {
@@ -191,18 +191,18 @@ export default function Leaderboard({ users }) {
                      break;
                }
 
-               plevels.push(level);
+               pLevels.push(level);
             }
          });
          let temp = user;
-         temp.dcompletions = dlevels;
-         temp.pcompletions = plevels;
-         temp.ptiers = ptiers;
+         temp.dCompletions = dLevels;
+         temp.pCompletions = pLevels;
+         temp.pTiers = pTiers;
          temp.tiers = tiers;
          temp.dScore = dScore;
          temp.pScore = pScore;
          temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
-         temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+         temp.pTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          userList.push(temp);
       });
 
@@ -238,7 +238,7 @@ export default function Leaderboard({ users }) {
          <div className='flex flex-col px-4 pt-4 pb-8 w-screen items-center justify-stretch flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
             <div className='flex items-center gap-4'>
                <div className='flex flex-col items-center justify-center'>
-                  <p className='font-inter text-xs md:text-base'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
+                  <p className='font-inter text-xs md:text-base'>{isPlatformer ? 'Platformer Levels' : 'Classic Levels'}</p>
                   <Switch
                      checked={isPlatformer}
                      onChange={reloadLeaderboard}
@@ -307,10 +307,19 @@ export default function Leaderboard({ users }) {
                         )}
                      </a>
                      <GdIconView user={user} />
+                     {isPlatformer ? ( 
+                        <>
+                           <p className='text-xl font-inter'>Platformer Extremes Completed: <span className='text-green-500'>{user?.pCompletions?.length}</span></p>
+                        </>
+                     ) : ( 
+                        <>
+                           <p className='text-xl font-inter'>Classic Extremes Completed: <span className='text-green-500'>{user?.dCompletions?.length}</span></p>
+                        </>
+                     )}
                      <div className='flex flex-wrap items-center justify-center gap-3'>
                         {isPlatformer ? (
                            <>
-                              {user.ptiers.map((tier, key) => (
+                              {user.pTiers.map((tier, key) => (
                                  <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                               ))}
                            </>
@@ -324,9 +333,9 @@ export default function Leaderboard({ users }) {
                      </div>
                   </div>
                   {isPlatformer ? (
-                     <Completions completions={user.pcompletions} />
+                     <Completions completions={user.pCompletions} />
                   ) : (
-                     <Completions completions={user.dcompletions} />
+                     <Completions completions={user.dCompletions} />
                   )}
                   
                </div>

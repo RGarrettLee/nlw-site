@@ -4,12 +4,14 @@ import LevelSubmitDialog from '../components/levelSubmitDialog';
 import LevelSearch from '../components/levelSearch';
 import Tiers from '../components/tiers';
 import Changelog from '../components/changelog';
+import supabase from '../db/connection';
 
 export default function Home({ nlwData, lwData, user, globalSetUser }) {
    const [level, setLevel] = useState({});
    const [listworthy, setListworthy] = useState(false);
    const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
+   const [added, setAdded] = useState(false);
    const colours = {
     'Beginner ': 'text-beginner',
     'Easy ': 'text-easy',
@@ -57,6 +59,15 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
  
   useEffect(() => {}, [nlwData]);
 
+  async function addToWishlist() {
+    let wishlist = user.wishlist;
+    wishlist.push(level);
+    setAdded(true);
+
+    await supabase.from('profiles').update({ wishlist: wishlist }).eq('full_name', user.full_name);
+    window.alert(`Added ${level.name} by ${level.creators} to your wishlist`);
+  }
+
    return (
       <>
         <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
@@ -70,6 +81,7 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                     onChange={() => {
                       setPlatformer(!platformer);
                       setLevel({});
+                      setAdded(false);
                     }}
                     className={`${platformer ? 'bg-indigo-700' : 'bg-indigo-500'}
                       relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
@@ -93,6 +105,7 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                         let randLevel = Math.floor(Math.random() * nlwData?.demons[randTier]?.levels.length);
                         level = Object.assign({}, {'tier': nlwData?.demons[randTier]?.name}, nlwData?.demons[randTier]?.levels[randLevel]);
                       }
+                      setAdded(false);
                       setLevel(level);
                     }} className='bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 rounded-lg px-4 py-1 text-lg font-inter duration-200 transition-colors'>Random Level</button>
                 </div>
@@ -100,10 +113,10 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
               </div>
               <div className='flex flex-col pb-10 sm:pb-0'>
                 {platformer ? (
-                  <Tiers tierData={nlwData.platformers} levels={nlwData.platformers?.levels} setLevel={setLevel} />
+                  <Tiers tierData={nlwData.platformers} levels={nlwData.platformers?.levels} setLevel={setLevel} setAdded={setAdded} />
                 ) : (
                   <>
-                    <Tiers tierData={nlwData.demons} level={nlwData.demons?.levels} setLevel={setLevel} />
+                    <Tiers tierData={nlwData.demons} level={nlwData.demons?.levels} setLevel={setLevel} setAdded={setAdded} />
                   </>
                 )}
               </div>
@@ -129,7 +142,14 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                         <p className='text-xl font-inter border-t-2 pt-2 w-3/4 text-center border-indigo-500'>Description:</p>
                         <p className='text-center text-md px-4 font-medium text-indigo-200'>{level?.desc}</p>
                         {user?.full_name ? (
-                          <button onClick={() => setCompletionSubmission(true)} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit Completion</button>
+                          <>
+                            <button onClick={() => setCompletionSubmission(true)} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Submit Completion</button>
+                            {user?.wishlist.some(el => el.name === level.name && el.creators === level.creators) || added ? (
+                              <></>
+                            ) : (
+                              <button onClick={() => addToWishlist()} className='text-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-400 duration-200 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-xl font-inter'>Add to wishlist</button>
+                            )}
+                          </>
                         ) : (
                           <></>
                         )}

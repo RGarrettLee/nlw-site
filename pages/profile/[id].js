@@ -7,6 +7,7 @@ import supabase from '../../db/connection';
 export default function Page({ user, users, nlwData }) {
    const [pUser, setUser] = useState({});
    const [profile, setProfile] = useState({});
+   const [isWish, setIsWish] = useState(false);
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [level, setLevel] = useState({});
    const sortOrder = [
@@ -158,6 +159,7 @@ export default function Page({ user, users, nlwData }) {
                let plevels = [];
                let tiers = [];
                let ptiers = [];
+               let wishTiers = [];
 
                user.completions?.map((level) => {
                   if (user.completions.includes(level) && level.status === 'approved' && !level.platformer) {
@@ -186,6 +188,28 @@ export default function Page({ user, users, nlwData }) {
                temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
                temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
          
+               user.wishlist?.map((level) => {
+                  if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && !level.platformer) {
+                     if (!wishTiers.find(({ name }) => name === level.tier)) {
+                        wishTiers.push({ 'name': level.tier, 'count': 1 });
+                     } else {
+                        wishTiers.find(({ name }) => name === level.tier).count+= 1;
+                     }
+                     //dlevels.push(level);
+                  }
+                  if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && level.platformer){
+                     if (!wishTiers.includes(({ name }) => name === level.tier)) {
+                        wishTiers.push({ 'name': level.tier, 'count': 1 });
+                     } else {
+                        wishTiers.find(({ name }) => name === level.tier).count+= 1;
+                     }
+                     plevels.push(level);
+                  }
+               });
+
+               temp.wishTiers = wishTiers;
+               temp.wishTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+
                setProfile(temp);
                setUser(user);
                notfound = false;
@@ -220,8 +244,26 @@ export default function Page({ user, users, nlwData }) {
             <>
                <div className='flex flex-col px-4 py-4 w-screen items-start justify-stretch flex-shrink-0 snap-center md:w-1/5 overflow-y-scroll max-h-screen gap-4'>
                   <p className='text-2xl font-inter'>Completions</p>
-                  <div className='flex flex-col items-center justify-center'>
-                     <p className='font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
+                  <div className='flex gap-4 items-center'>
+                     <Switch
+                        checked={isWish}
+                        onChange={() => {
+                           setIsWish(!isWish);
+                           setLevel({});
+                        }}
+                        className={`${isWish ? 'bg-indigo-700' : 'bg-indigo-500'}
+                           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                        >
+                        <span className="sr-only">Use setting</span>
+                        <span
+                           aria-hidden="true"
+                           className={`${isWish ? 'translate-x-9' : 'translate-x-0'}
+                              pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                        />
+                     </Switch>
+                     <p className='text-2xl font-inter'>{isWish ? 'Wishlist' : 'Completions'}</p>
+                  </div>
+                  <div className='flex gap-4 items-center justify-center'>
                      <Switch
                         checked={isPlatformer}
                         onChange={setIsPlatformer}
@@ -235,6 +277,7 @@ export default function Page({ user, users, nlwData }) {
                               pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
                      </Switch>
+                     <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
                   </div>
                   <div className='flex flex-col gap-2'>
                      {isPlatformer ? (
@@ -258,20 +301,41 @@ export default function Page({ user, users, nlwData }) {
                         </>
                      ) : (
                         <div className='flex flex-col gap-2'>
-                           {pUser.tiers?.map((tier, key) => (
-                              <div key={key}>
-                                 <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                 {pUser.dcompletions?.map((level, index) => (
-                                    <div className='flex flex-col gap-2' key={index}>
-                                       {level.tier === tier.name ? (
-                                          <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
-                                       ) : (
-                                          <></>
-                                       )}
+                           {isWish ? (
+                              <>
+                                 {pUser.wishTiers?.map((tier, key) => (
+                                    <div key={key}>
+                                       <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                       {pUser.wishlist?.map((level, index) => (
+                                          <div className='flex flex-col gap-2' key={index}>
+                                             {level.tier === tier.name ? (
+                                                <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                             ) : (
+                                                <></>
+                                             )}
+                                          </div>
+                                       ))}
                                     </div>
                                  ))}
-                              </div>
-                           ))}
+                              </>
+                           ) : (
+                              <>
+                                 {pUser.tiers?.map((tier, key) => (
+                                    <div key={key}>
+                                       <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                       {pUser.dcompletions?.map((level, index) => (
+                                          <div className='flex flex-col gap-2' key={index}>
+                                             {level.tier === tier.name ? (
+                                                <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                             ) : (
+                                                <></>
+                                             )}
+                                          </div>
+                                       ))}
+                                    </div>
+                                 ))}
+                              </>
+                           )}
                         </div>
                      )}
                   </div>

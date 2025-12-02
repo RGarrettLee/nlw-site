@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
+import { useRouter } from 'next/router';
 import EditDialog from '../components/editDialog';
 import GdIconView from '../components/gdIconView';
 import supabase from '../db/connection';
 
 export default function Profile({ user }) {
    const [profile, setProfile] = useState({});
+   const [isWish, setIsWish] = useState(false);
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [openEdit, setOpenEdit] = useState(false);
    const [level, setLevel] = useState({});
@@ -99,7 +101,6 @@ export default function Profile({ user }) {
       'Nightmare Tier': 'text-nightmare',
       'Fuck Tier': 'text-white',
    };
-  
    const hover = {
       'Beginner Tier': 'hover:bg-beginner/80',
       'Easy Tier': 'hover:bg-easy/80',
@@ -123,7 +124,6 @@ export default function Profile({ user }) {
       'Nightmare Tier': 'hover:bg-nightmare/80',
       'Fuck': 'bg-fuck',
    };
-
    const active = {
       'Beginner Tier': 'active:bg-beginner/60',
       'Easy Tier': 'active:bg-easy/60',
@@ -148,12 +148,15 @@ export default function Profile({ user }) {
       'Fuck': 'bg-fuck',
    };
 
+   const router = useRouter();
+
    useEffect(() => {
       let dlevels = [];
       let plevels = [];
       let tiers = [];
       let ptiers = [];
-      
+      let wishTiers = [];
+
       user.completions?.map((level) => {
          if (user.completions.includes(level) && level.status === 'approved' && !level.platformer) {
             if (!tiers.find(({ name }) => name === level.tier)) {
@@ -180,6 +183,31 @@ export default function Profile({ user }) {
       temp.tiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
       temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
 
+      user.wishlist?.map((level) => {
+         if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && !level.platformer) {
+            if (!wishTiers.find(({ name }) => name === level.tier)) {
+               wishTiers.push({ 'name': level.tier, 'count': 1 });
+            } else {
+               wishTiers.find(({ name }) => name === level.tier).count+= 1;
+            }
+            //dlevels.push(level);
+         }
+         if (user.wishlist.includes(level) && (level.status !== 'approved' || level.status !== 'pending') && level.platformer){
+            if (!wishTiers.includes(({ name }) => name === level.tier)) {
+               wishTiers.push({ 'name': level.tier, 'count': 1 });
+            } else {
+               wishTiers.find(({ name }) => name === level.tier).count+= 1;
+            }
+            plevels.push(level);
+         }
+      });
+      //temp.wishlist.sort();
+      temp.wishTiers = wishTiers;
+      temp.wishTiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+      //temp.ptiers.sort((a, b) => sortOrder.indexOf(a.name.trim()) - sortOrder.indexOf(b.name.trim()));
+
+      console.log(temp);
+
       setProfile(temp);
    }, [user, sortOrder]);
       
@@ -197,14 +225,39 @@ export default function Profile({ user }) {
       } 
    }
 
+   async function deleteFromWishlist() {
+      let wishlist = user.wishlist;
+      let pos = wishlist.indexOf(level);
+      wishlist.splice(pos, 1);
+      await supabase.from('profiles').update({ wishlist: wishlist }).eq('full_name', user.full_name);
+      router.reload();
+   }
+
    return (
       <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
          {user?.full_name ? (
             <>
                <div className='flex flex-col px-4 pt-4 w-screen items-start justify-stretch flex-shrink-0 snap-center md:w-1/5 overflow-y-scroll max-h-screen gap-4'>
-                  <p className='text-2xl font-inter'>Completions</p>
-                  <div className='flex flex-col items-center justify-center'>
-                     <p className='font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
+                  <div className='flex gap-4 items-center'>
+                     <Switch
+                        checked={isWish}
+                        onChange={() => {
+                           setIsWish(!isWish);
+                           setLevel({});
+                        }}
+                        className={`${isWish ? 'bg-indigo-700' : 'bg-indigo-500'}
+                           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                        >
+                        <span className="sr-only">Use setting</span>
+                        <span
+                           aria-hidden="true"
+                           className={`${isWish ? 'translate-x-9' : 'translate-x-0'}
+                              pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                        />
+                     </Switch>
+                     <p className='text-2xl font-inter'>{isWish ? 'Wishlist' : 'Completions'}</p>
+                  </div>
+                  <div className='flex gap-4 items-center justify-center'>
                      <Switch
                         checked={isPlatformer}
                         onChange={setIsPlatformer}
@@ -218,6 +271,7 @@ export default function Profile({ user }) {
                               pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
                      </Switch>
+                     <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
                   </div>
                   <div className='flex flex-col gap-2'>
                      {isPlatformer ? (
@@ -241,20 +295,41 @@ export default function Profile({ user }) {
                         </>
                      ) : (
                         <div className='flex flex-col gap-2'>
-                           {user.tiers?.map((tier, key) => (
-                              <div key={key}>
-                                 <p className='font-inter text-lg'>{tier.name} Tier</p>
-                                 {user.dcompletions?.map((level, index) => (
-                                    <div className='flex flex-col gap-2' key={index}>
-                                       {level.tier === tier.name ? (
-                                          <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
-                                       ) : (
-                                          <></>
-                                       )}
+                           {isWish ? (
+                              <>
+                                 {user.wishTiers?.map((tier, key) => (
+                                    <div key={key}>
+                                       <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                       {user.wishlist?.map((level, index) => (
+                                          <div className='flex flex-col gap-2' key={index}>
+                                             {level.tier === tier.name ? (
+                                                <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                             ) : (
+                                                <></>
+                                             )}
+                                          </div>
+                                       ))}
                                     </div>
                                  ))}
-                              </div>
-                           ))}
+                              </>
+                           ) : (
+                              <>
+                                 {user.tiers?.map((tier, key) => (
+                                    <div key={key}>
+                                       <p className='font-inter text-lg'>{tier.name} Tier</p>
+                                       {user.dcompletions?.map((level, index) => (
+                                          <div className='flex flex-col gap-2' key={index}>
+                                             {level.tier === tier.name ? (
+                                                <button onClick={() => setLevel(level)} key={index} className={`text-lg m-0.5 text-start font-inter ${colours[tier.name + 'Tier']} ${hover[tier.name + 'Tier']} ${active[tier.name + 'Tier']} text-black duration-200 transition-colors rounded-lg w-fit px-4 py-2`}>{level.name}</button>
+                                             ) : (
+                                                <></>
+                                             )}
+                                          </div>
+                                       ))}
+                                    </div>
+                                 ))}
+                              </>
+                           )}
                         </div>
                      )}
                   </div>
@@ -301,28 +376,40 @@ export default function Profile({ user }) {
                            {level?.name !== 'None Yet!' ? (
                               <>
                               <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'><span className='text-xl font-inter text-white'>Creators:</span> {level?.creators}</p>
-                              <div className='flex flex-col gap-1 items-center'>
-                                 <p className='text-xl font-inter text-white'>Skillsets:</p>
-                                 <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'>{level?.skillsets}</p>
-                              </div>
-                              <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="absolute top-7 right-1/3 size-6 text-white hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                              </svg></a>
-                              <div className='flex md:flex-col w-full justify-center items-center gap-3'>
-                                 <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch sm:w-1/2 md:px-10'>
-                                    <p className='text-xl font-inter text-center'>Personal Rating:</p>
-                                    <p className='text-xl font-inter text-center'>Enjoyment:</p>
-                                    <p className='text-xl font-inter text-center'>Attempts:</p>
-                                    <p className='text-xl font-inter text-center'>Worst Fail:</p>
-                                 </div>
-                                 <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch md:w-1/2 md:px-10'>
-                                    <p className={`text-xl font-medium text-center ${textColours[level?.personalRate]}`}>{level?.personalRate}</p>
-                                    <p className='text-xl font-medium text-center text-indigo-200'>{level?.personalEnj}</p>
-                                    <p className='text-xl font-medium text-center text-indigo-200'>{level?.attempts}</p>
-                                    <p className='text-xl font-medium text-center text-red-500'>{level?.worstFail}%</p>
-                                 </div>
-                              </div>
-                              {level?.opinion !== '' ? (
+                              {isWish ? (
+                                 <>
+                                    <iframe width='560' height='315' className='block border-none w-[400px] h-[225px] sm:w-[420px] sm:h-[235px] xl:w-[720px] xl:h-[403px]' src={`https://www.youtube.com/embed/${level?.videoID}`} allow='autoplay' allowFullScreen></iframe>
+                                    <div className='flex flex-col gap-1 items-center'>
+                                       <p className='text-xl font-inter text-white'>Skillsets:</p>
+                                       <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'>{level?.skillsets}</p>
+                                    </div>
+                                 </>
+                              ) : (
+                                 <>
+                                    <div className='flex flex-col gap-1 items-center'>
+                                       <p className='text-xl font-inter text-white'>Skillsets:</p>
+                                       <p className='text-lg font-medium text-center underline underline-offset-2 text-indigo-200'>{level?.skillsets}</p>
+                                    </div>
+                                    <a href={level.video} target='_blank' noreferrer='true'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="absolute top-7 right-1/3 size-6 text-white hover:text-blue-300 active:text-blue-200 duration-200 transition-colors">
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                                    </svg></a>
+                                    <div className='flex md:flex-col w-full justify-center items-center gap-3'>
+                                       <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch sm:w-1/2 md:px-10'>
+                                          <p className='text-xl font-inter text-center'>Personal Rating:</p>
+                                          <p className='text-xl font-inter text-center'>Enjoyment:</p>
+                                          <p className='text-xl font-inter text-center'>Attempts:</p>
+                                          <p className='text-xl font-inter text-center'>Worst Fail:</p>
+                                       </div>
+                                       <div className='flex flex-col md:grid md:grid-cols-4 justify-stretch md:w-1/2 md:px-10'>
+                                          <p className={`text-xl font-medium text-center ${textColours[level?.personalRate]}`}>{level?.personalRate}</p>
+                                          <p className='text-xl font-medium text-center text-indigo-200'>{level?.personalEnj}</p>
+                                          <p className='text-xl font-medium text-center text-indigo-200'>{level?.attempts}</p>
+                                          <p className='text-xl font-medium text-center text-red-500'>{level?.worstFail}%</p>
+                                       </div>
+                                    </div>
+                                 </>
+                              )}
+                              {level?.opinion !== '' && !isWish ? (
                                  <>
                                     <p className='text-xl font-inter border-t-2 pt-2 w-1/2 text-center border-indigo-500'>Opinon:</p>
                                     <p className='text-center text-lg px-4 font-medium text-indigo-200'>{level?.opinion}</p>
@@ -334,7 +421,11 @@ export default function Profile({ user }) {
                            ) : (
                               <></>
                            )}
-                           <button onClick={() => deleteRecord()} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg duration-200 transition-colors font-inter text-black'>Delete Record</button>
+                           {isWish ? (
+                              <button onClick={() => deleteFromWishlist()} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg duration-200 transition-colors font-inter text-black'>Delete from Wishlist</button>
+                           ) : (
+                              <button onClick={() => deleteRecord()} className='px-4 py-2 bg-red-600 hover:bg-red-500 active:bg-red-400 rounded-lg duration-200 transition-colors font-inter text-black'>Delete Record</button>
+                           )}
                         </div>
                      ) : (
                         <></>

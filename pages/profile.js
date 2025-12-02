@@ -271,7 +271,7 @@ export default function Profile({ user }) {
                               pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
                      </Switch>
-                     <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Regular Levels'}</p>
+                     <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Classic Levels'}</p>
                   </div>
                   <div className='flex flex-col gap-2'>
                      {isPlatformer && !isWish ? (

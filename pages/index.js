@@ -77,7 +77,7 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
               <div className='flex flex-col items-start gap-2'>
                 <div className='flex gap-4 items-end justify-center'>
                   <div className='flex flex-col'>
-                    <p className='font-inter'>{platformer ? 'Platformer Levels' : 'Regular Levels'}</p>
+                    <p className='font-inter'>{platformer ? 'Platformer Levels' : 'Classic Levels'}</p>
                     <Switch
                     checked={platformer}
                     onChange={() => {

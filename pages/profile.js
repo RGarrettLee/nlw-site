@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import EditDialog from '../components/editDialog';
+import SubmissionsDialog from '../components/submissionsDialog';
 import GdIconView from '../components/gdIconView';
 import supabase from '../db/connection';
 
@@ -10,6 +11,7 @@ export default function Profile({ user }) {
    const [isWish, setIsWish] = useState(false);
    const [isPlatformer, setIsPlatformer] = useState(false);
    const [openEdit, setOpenEdit] = useState(false);
+   const [openSubmissions, setOpenSubmissions] = useState(false);
    const [level, setLevel] = useState({});
    const sortOrder = [
       'Nightmare',
@@ -234,10 +236,10 @@ export default function Profile({ user }) {
    }
 
    return (
-      <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
+      <div className='flex min-h-screen min-w-max overflow-y-hidden overflow-x-scroll snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
          {user?.full_name ? (
             <>
-               <div className='flex flex-col px-4 pt-4 w-screen items-start justify-stretch flex-shrink-0 snap-center md:w-1/5 overflow-y-scroll max-h-screen gap-4'>
+               <div className='flex flex-col px-4 pt-4 w-auto items-start justify-stretch flex-shrink-0 snap-center md:w-1/5 overflow-y-scroll max-h-screen gap-4'>
                   <div className='flex gap-4 items-center'>
                      <Switch
                         checked={isWish}
@@ -246,13 +248,13 @@ export default function Profile({ user }) {
                            setLevel({});
                         }}
                         className={`${isWish ? 'bg-indigo-700' : 'bg-indigo-500'}
-                           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                           relative inline-flex h-[34px] w-[70px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                         >
                         <span className="sr-only">Use setting</span>
                         <span
                            aria-hidden="true"
                            className={`${isWish ? 'translate-x-9' : 'translate-x-0'}
-                              pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                              pointer-events-none inline-block h-[30px] w-[30px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
                      </Switch>
                      <p className='text-2xl font-inter'>{isWish ? 'Wishlist' : 'Completions'}</p>
@@ -262,13 +264,13 @@ export default function Profile({ user }) {
                         checked={isPlatformer}
                         onChange={setIsPlatformer}
                         className={`${isPlatformer ? 'bg-indigo-700' : 'bg-indigo-500'}
-                           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                           relative inline-flex h-[34px] w-[70px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                         >
                         <span className="sr-only">Use setting</span>
                         <span
                            aria-hidden="true"
                            className={`${isPlatformer ? 'translate-x-9' : 'translate-x-0'}
-                              pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                              pointer-events-none inline-block h-[30px] w-[30px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                         />
                      </Switch>
                      <p className='text-2xl font-inter'>{isPlatformer ? 'Platformer Levels' : 'Classic Levels'}</p>
@@ -355,7 +357,7 @@ export default function Profile({ user }) {
                      )}
                   </div>
                </div>
-               <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-center gap-10 pt-10 sm:pt-0 md:w-4/5'>
+               <div className='flex flex-col w-screen items-center justify-center flex-shrink-0 snap-always snap-center gap-10 pt-10 sm:pt-0 md:w-4/5'>
                   <div className='flex flex-col items-center gap-4'>
                      <div className='flex gap-4 items-center justify-center'>
                         <img className='rounded-full' src={profile.avatar_url} width={100} height={100} alt='user pfp' />
@@ -371,6 +373,10 @@ export default function Profile({ user }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                      </svg></button>
+                     <button onClick={() => setOpenSubmissions(true)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-10 hover:text-white/75 active:text-white/50 duration-200 transition-colors absolute top-2 sm:top-5 right-1/3 sm:right-20">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
+                     <SubmissionsDialog user={user} toggle={openSubmissions} setToggle={setOpenSubmissions} />
+                     </svg></button>
                      <div className='flex flex-col items-center gap-2'>
                         {isPlatformer ? ( 
                            <>
@@ -385,13 +391,13 @@ export default function Profile({ user }) {
                            {isPlatformer ? (
                               <>
                                  {user?.pTiers?.map((tier, key) => (
-                                    <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                    <p key={key} className={`${colours[tier.name + 'Tier']} ${tier.name !== 'Fuck' ? 'text-black' : 'text-red-600'} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                                  ))}
                               </>
                            ) : (
                               <>
                                  {user?.tiers?.map((tier, key) => (
-                                    <p key={key} className={`${colours[tier.name + 'Tier']} text-black px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
+                                    <p key={key} className={`${colours[tier.name + 'Tier']} ${tier.name !== 'Fuck' ? 'text-black' : 'text-red-600'} px-4 py-2 rounded-2xl font-inter text-center`}><span className='font-inter text-black'>{tier.count}</span> {tier.name}</p>
                                  ))}
                               </>
                            )}

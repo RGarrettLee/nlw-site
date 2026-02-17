@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import Link from "next/link";
 
 export default function Credits() {
     return (
@@ -26,6 +26,11 @@ export default function Credits() {
                     <p className='font-inter text-2xl text-purple-400'>NEBUNYX</p>
                     <p className='font-inter text-2xl'>plimbus</p>
                     <p className='font-inter text-2xl'>SmileBullet</p>
+                </div>
+                <br />
+                <h2 className='text-4xl font-inter text-red-500'>Website Creator</h2>
+                <div className='flex flex-col items-center justify-center gap-2'>
+                    <Link href='/profile/sidewinder_' className='font-inter text-2xl hover:bg-white/5 px-2 py-1 rounded-lg'>Sidewinder</Link>
                 </div>
             </div>
         </div>

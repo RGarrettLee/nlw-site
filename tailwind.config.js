@@ -34,7 +34,11 @@ module.exports = {
         'menacing': '#9452A2',
         'unreal': '#913869',
         'nightmare': '#832828',
-        'fuck': '#000000'
+        'fuck': '#000000',
+        'supremeObserver': '#9900FF',
+        'divineCouncil': '#FF00FF',
+        'observer': '#FF0000',
+        'sheetEditor': '#9CFF75'
       }
     },
   },

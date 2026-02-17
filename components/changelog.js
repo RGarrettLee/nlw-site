@@ -48,8 +48,8 @@ export default function Changelog({ nlwData, lwData, lw }) {
    }
 
    return (
-      <div className='flex flex-col items-center justify-center gap-6 h-screen max-h-screen overflow-y-scroll'>
-        <div className='flex flex-col items-center justify-center gap-4 h-3/4'>
+      <div className='flex flex-col items-center content-center gap-6 h-screen max-h-full overflow-y-scroll'>
+        <div className='flex flex-col items-center justify-center gap-4'>
             <p className='text-3xl font-inter underline underline-offset-2'>Changelog</p>
             <div className='flex flex-col items-center justify-center gap-2'>
                 {clPages[page]?.map((changes, index) => (

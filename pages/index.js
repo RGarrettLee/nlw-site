@@ -4,11 +4,13 @@ import LevelSubmitDialog from '../components/levelSubmitDialog';
 import LevelSearch from '../components/levelSearch';
 import Tiers from '../components/tiers';
 import Changelog from '../components/changelog';
+import Credits from '../components/credits';
 import supabase from '../db/connection';
 
 export default function Home({ nlwData, lwData, user, globalSetUser }) {
    const [level, setLevel] = useState({});
    const [listworthy, setListworthy] = useState(false);
+   const [credits, setCredits] = useState(false);
    const [platformer, setPlatformer] = useState(false);
    const [completionSubmission, setCompletionSubmission] = useState(false);
    const [added, setAdded] = useState(false);
@@ -72,8 +74,8 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
 
    return (
       <>
-        <div className='flex min-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory justify-center items-stretch backdrop-blur-sm'>
-          <div className='flex flex-col px-4 pt-4 pb-8 w-screen flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
+        <div className='flex min-h-screen max-h-screen min-w-screen overflow-y-hidden snap-x snap-mandatory content-center items-stretch backdrop-blur-sm'>
+          <div className='flex flex-col px-4 pt-4 pb-8 w-screen content-center flex-shrink-0 snap-center md:w-1/4 overflow-y-scroll max-h-screen gap-2'>
               <div className='flex flex-col items-start gap-2'>
                 <div className='flex gap-4 items-end justify-center'>
                   <div className='flex flex-col'>
@@ -123,7 +125,7 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                 )}
               </div>
           </div>
-          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-center w-screen top-0 md:w-2/4'>
+          <div className='flex flex-col items-center justify-center flex-shrink-0 snap-x snap-center w-screen top-0 md:w-2/4'>
               {Object.keys(level).length > 0 ? (
                 <div className='flex flex-col items-center justify-center gap-1 sm:gap-4 w-full'>
                     <p className={`text-4xl font-inter ${colours[level?.tier]}`}>{level?.name}</p>
@@ -188,8 +190,31 @@ export default function Home({ nlwData, lwData, user, globalSetUser }) {
                 </div>
               )}
           </div>
-          <div className='flex flex-col 3xl:items-center 3xl:justify-center flex-shrink-0 snap-center w-screen overflow-y-scroll px-4 py-6 md:w-1/4 gap-2'>
-              <Changelog nlwData={nlwData} lwData={lwData} lw={listworthy} />
+          <div className='flex flex-col 3xl:content-center 3xl:items-center 3xl:justify-center flex-shrink-0 snap-x snap-center w-screen overflow-y-scroll px-4 py-6 md:w-1/4 gap-2'>
+              <div className='flex flex-col justify-center items-center overflow-y-scroll'>
+                <p className='font-inter'>{credits ? 'Changelog' : 'Team Credits'}</p>
+                <Switch
+                  checked={credits}
+                  onChange={() => {
+                    setCredits(!credits);
+                  }}
+                  className={`${credits ? 'bg-indigo-700' : 'bg-indigo-500'}
+                    relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+                  >
+                  <span className="sr-only">Use setting</span>
+                  <span
+                    aria-hidden="true"
+                    className={`${credits ? 'translate-x-9' : 'translate-x-0'}
+                        pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                  />
+                </Switch>
+              </div>
+              {credits ? (
+                <Changelog nlwData={nlwData} lwData={lwData} lw={listworthy} />
+              ) : (
+                <Credits />
+              )}
+              
           </div>
         </div>
     </>
